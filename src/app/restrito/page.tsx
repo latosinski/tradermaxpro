@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function RestritoPage() {
+function RestritoContent() {
   const searchParams = useSearchParams();
   const tokenFromUrl = searchParams.get("token") || "";
 
@@ -156,5 +156,13 @@ export default function RestritoPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function RestritoPage() {
+  return (
+    <Suspense fallback={<div>Carregando...</div>}>
+      <RestritoContent />
+    </Suspense>
   );
 }
