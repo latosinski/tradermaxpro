@@ -29,7 +29,7 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-image" data-aos="fade-left" data-aos-delay="200">
-          <img src="/img/tela.jpg" alt="Tela do TraderMaxPro" />
+          <img src="/img/tela.png" alt="Tela do TraderMaxPro" />
         </div>
       </section>
 
@@ -89,7 +89,7 @@ export default function Home() {
         <p className="section-subtitle" data-aos="fade-up">Imagem real do software. Licença vitalícia com atualizações gratuitas.</p>
         <div className="demo-container">
           <div className="demo-screenshot" data-aos="fade-right">
-            <img src="/img/performance.jpg" alt="Tela do TraderMaxPro" />
+            <img src="/img/performance.png" alt="Tela do TraderMaxPro" />
           </div>
           <div className="price-box" data-aos="fade-left">
             <p className="price-old">De R$ 897,90</p>
