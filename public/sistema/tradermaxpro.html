@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TraderMax Pro · Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --sidebar-width: 260px;
+            --navy: #03045e;
+            --blue: #0077b6;
+            --cyan: #00b4d8;
+            --light-blue: #90e0ef;
+            --pale: #caf0f8;
+            --success: #0ead69;
+            --success-light: #E8F5EE;
+            --danger: #ef233c;
+            --danger-light: #FDEFEF;
+            --warning: #F0C987;
+            --warning-light: #FFF7E6;
+            --bg: #F6FAFD;
+            --card-bg: #FFFFFF;
+            --card-shadow: 0 2px 10px rgba(3, 4, 94, 0.05), 0 1px 3px rgba(3, 4, 94, 0.03);
+            --card-shadow-hover: 0 14px 32px rgba(3, 4, 94, 0.08), 0 4px 10px rgba(3, 4, 94, 0.04);
+            --text: #1A2A3A;
+            --text-secondary: #4B5E6D;
+            --text-muted: #7C8E9D;
+            --border: #DCE8F0;
+            --border-light: #EBF2F8;
+            --input-bg: #F9FCFE;
+            --input-border: #D0DEE8;
+            --sidebar-bg: #000000;
+            --sidebar-text: #c8d9e8;
+            --sidebar-hover: #1a1a2e;
+            --sidebar-active: #16213e;
+            --header-bg: #FFFFFF;
+            --scrollbar-thumb: #B0C8D8;
+            --scrollbar-track: #EBF2F8;
+            --overlay: rgba(3, 4, 94, 0.4);
+            --badge-bg: #EBF2F8;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-sm: 8px;
+            --radius: 14px;
+            --radius-lg: 18px;
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .dark-mode {
+            --bg: #0A1628;
+            --card-bg: #12233E;
+            --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+            --card-shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.45);
+            --text: #E0E8F0;
+            --text-secondary: #9BAFC0;
+            --text-muted: #5E7A90;
+            --border: #1C3048;
+            --border-light: #15263C;
+            --input-bg: #12233E;
+            --input-border: #1C3048;
+            --header-bg: #0F1F36;
+            --badge-bg: #1C3048;
+            --sidebar-bg: #0a0a0a;
+            --sidebar-hover: #1a1a2e;
+            --sidebar-active: #16213e;
+            --success-light: #152F24;
+            --danger-light: #2D1A1A;
+            --warning-light: #2D2410;
+            --overlay: rgba(0, 0, 0, 0.7);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { font-size:16px; scroll-behavior:smooth; }
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            transition: background var(--transition), color var(--transition);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .sidebar {
+            position: fixed; top:0; left:0; width: var(--sidebar-width); height:100vh;
+            background: var(--sidebar-bg); color: var(--sidebar-text); z-index:1000;
+            display: flex; flex-direction: column; transition: transform var(--transition);
+            overflow-y: auto; overflow-x: hidden;
+        }
+        .sidebar::-webkit-scrollbar { width:4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius:4px; }
+        .sidebar-logo {
+            display:flex; align-items:center; gap:0.7rem; padding:1.4rem 1.5rem;
+            border-bottom:1px solid rgba(255,255,255,0.08); flex-shrink:0;
+        }
+        .sidebar-logo .logo-icon {
+            width:40px; height:40px; border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+            display:flex; align-items:center; justify-content:center;
+            font-size:1.2rem; color:#fff; flex-shrink:0;
+        }
+        .sidebar-logo h2 { font-size:1.15rem; font-weight:700; color:#fff; letter-spacing:-0.3px; white-space:nowrap; }
+        .sidebar-logo h2 span { font-weight:400; color:#90e0ef; }
+        .sidebar-nav { flex:1; padding:0.75rem 0.8rem; display:flex; flex-direction:column; gap:0.15rem; }
+        .sidebar-nav .nav-section {
+            font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em;
+            color:#7C9EC0; padding:0.9rem 0.7rem 0.4rem; font-weight:600;
+        }
+        .sidebar-nav a {
+            display:flex; align-items:center; gap:0.65rem; padding:0.6rem 0.75rem;
+            border-radius: var(--radius-sm); color: var(--sidebar-text); text-decoration:none;
+            font-size:0.875rem; font-weight:500; transition: all var(--transition);
+            cursor:pointer; white-space:nowrap; position:relative;
+        }
+        .sidebar-nav a:hover { background: var(--sidebar-hover); color:#fff; }
+        .sidebar-nav a.active { background: var(--sidebar-active); color:#fff; font-weight:600; }
+        .sidebar-nav a.active::before {
+            content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
+            width:3px; height:60%; background: #00b4d8; border-radius:0 3px 3px 0;
+        }
+        .sidebar-nav a i { width:20px; text-align:center; font-size:0.95rem; opacity:0.85; }
+        .sidebar-nav a.logout-link {
+            margin-top:auto; color:#E8A4A4; border-top:1px solid rgba(255,255,255,0.06);
+            padding-top:0.85rem; margin-top:0.5rem;
+        }
+        .sidebar-nav a.logout-link:hover { background: rgba(232,164,164,0.12); color:#F0C0C0; }
+
+        .main-content {
+            margin-left: var(--sidebar-width); flex:1; min-height:100vh;
+            display:flex; flex-direction:column; transition: margin var(--transition);
+            width: calc(100% - var(--sidebar-width));
+        }
+        .header {
+            background: var(--header-bg); border-bottom:1px solid var(--border);
+            padding:0.9rem 1.5rem; display:flex; align-items:center; justify-content:space-between;
+            gap:1rem; flex-wrap:wrap; position:sticky; top:0; z-index:500;
+            transition: background var(--transition), border var(--transition);
+        }
+        .header-left { display:flex; align-items:center; gap:0.75rem; }
+        .header-left h1 { font-size:1.2rem; font-weight:700; letter-spacing:-0.3px; }
+        .header-right { display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; }
+        .btn {
+            display:inline-flex; align-items:center; gap:0.4rem; padding:0.5rem 1rem;
+            border-radius: var(--radius-sm); font-size:0.825rem; font-weight:600;
+            cursor:pointer; border:1px solid transparent; transition: all var(--transition);
+            white-space:nowrap; font-family: var(--font); letter-spacing:-0.1px;
+        }
+        .btn-icon {
+            width:36px; height:36px; padding:0; border-radius:50%; display:inline-flex;
+            align-items:center; justify-content:center; font-size:1rem;
+            border:1px solid var(--border); background: var(--card-bg);
+            color: var(--text-secondary); cursor:pointer; transition: all var(--transition);
+        }
+        .btn-icon:hover { background: var(--bg); color: var(--text); border-color: var(--cyan); }
+        .btn-primary { background: var(--blue); color:#fff; border-color: var(--blue); }
+        .btn-primary:hover { background: #00669A; box-shadow:0 6px 18px rgba(0,119,182,0.35); transform:translateY(-1px); }
+        .btn-outline { background:transparent; border-color: var(--border); color: var(--text); }
+        .btn-outline:hover { background: var(--bg); border-color: var(--cyan); }
+        .btn-sm { padding:0.35rem 0.7rem; font-size:0.75rem; }
+        .filter-group { display:flex; align-items:center; gap:0.4rem; }
+        .filter-group input[type="date"],
+        .filter-group select {
+            padding:0.45rem 0.6rem; border-radius: var(--radius-sm); border:1px solid var(--input-border);
+            background: var(--input-bg); color: var(--text); font-family: var(--font);
+            font-size:0.8rem; transition: all var(--transition);
+        }
+        .filter-group select { width:90px; }
+        .filter-group input[type="date"] { width:130px; }
+        .filter-group input:focus, .filter-group select:focus { outline:none; border-color: var(--cyan); box-shadow:0 0 0 3px rgba(0,180,216,0.12); }
+
+        .content { flex:1; padding:1.3rem 1.5rem 2rem; display:flex; flex-direction:column; gap:1.3rem; overflow-y:auto; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap:1rem; }
+        .kpi-card {
+            background: var(--card-bg); border-radius: var(--radius); padding:1.1rem 1.2rem;
+            box-shadow: var(--card-shadow); transition: all var(--transition);
+            border:1px solid var(--border-light); position:relative; overflow:hidden;
+        }
+        .kpi-card:hover { box-shadow: var(--card-shadow-hover); transform:translateY(-2px); }
+        .kpi-card .kpi-label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); font-weight:600; margin-bottom:0.35rem; }
+        .kpi-card .kpi-value { font-size:1.5rem; font-weight:700; letter-spacing:-0.5px; }
+        .kpi-card .kpi-sub { font-size:0.75rem; color:var(--text-secondary); margin-top:0.2rem; }
+        .kpi-card.positive .kpi-value { color: var(--success); }
+        .kpi-card.negative .kpi-value { color: var(--danger); }
+        .kpi-card .kpi-icon { position:absolute; top:0.8rem; right:0.9rem; font-size:1.6rem; opacity:0.12; color: var(--blue); }
+
+        .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap:1rem; }
+        .chart-card {
+            background: var(--card-bg); border-radius: var(--radius); padding:1.2rem;
+            box-shadow: var(--card-shadow); border:1px solid var(--border-light); transition: all var(--transition);
+        }
+        .chart-card h3 { font-size:0.9rem; font-weight:700; margin-bottom:0.8rem; }
+        .chart-card canvas { width:100% !important; max-height:260px; }
+
+        .table-card {
+            background: var(--card-bg); border-radius: var(--radius); padding:1.2rem;
+            box-shadow: var(--card-shadow); border:1px solid var(--border-light); overflow:hidden;
+        }
+        .table-card h3 { font-size:0.9rem; font-weight:700; margin-bottom:0.8rem; }
+        .table-wrapper { overflow-x:auto; border-radius: var(--radius-sm); border:1px solid var(--border-light); }
+        table { width:100%; border-collapse:collapse; font-size:0.78rem; min-width:700px; }
+        table thead th {
+            background: var(--bg); padding:0.65rem 0.7rem; text-align:left; font-weight:700;
+            font-size:0.7rem; text-transform:uppercase; letter-spacing:0.05em;
+            color:var(--text-secondary); border-bottom:2px solid var(--border);
+            white-space:nowrap; position:sticky; top:0;
+        }
+        table tbody td { padding:0.55rem 0.7rem; border-bottom:1px solid var(--border-light); white-space:nowrap; }
+        table tbody tr:hover { background: var(--bg); }
+        .badge { display:inline-block; padding:0.2rem 0.55rem; border-radius:20px; font-size:0.7rem; font-weight:700; }
+        .badge-profit { background: var(--success-light); color: var(--success); }
+        .badge-loss { background: var(--danger-light); color: var(--danger); }
+
+        .modal-overlay {
+            position:fixed; inset:0; background: var(--overlay); z-index:2000;
+            display:flex; align-items:center; justify-content:center;
+            opacity:0; pointer-events:none; transition: opacity var(--transition);
+        }
+        .modal-overlay.active { opacity:1; pointer-events:auto; }
+        .modal {
+            background: var(--card-bg); border-radius: var(--radius-lg); padding:1.8rem;
+            width:92%; max-width:550px; max-height:85vh; overflow-y:auto;
+            box-shadow:0 25px 60px rgba(3,4,94,0.2); position:relative;
+            transition: transform var(--transition); transform:translateY(20px);
+        }
+        .modal-overlay.active .modal { transform:translateY(0); }
+        .modal h2 { font-size:1.2rem; font-weight:700; margin-bottom:1.2rem; }
+        .modal .close-btn {
+            position:absolute; top:1rem; right:1.2rem; background:none; border:none;
+            font-size:1.3rem; cursor:pointer; color:var(--text-muted); padding:0.3rem; border-radius:50%;
+        }
+        .modal .close-btn:hover { color:var(--text); background:var(--bg); }
+        .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
+        .form-group { display:flex; flex-direction:column; gap:0.3rem; }
+        .form-group label { font-size:0.75rem; font-weight:600; color:var(--text-secondary); }
+        .form-group input, .form-group select {
+            padding:0.55rem 0.7rem; border-radius: var(--radius-sm); border:1px solid var(--input-border);
+            background: var(--input-bg); color:var(--text); font-family: var(--font); font-size:0.85rem;
+        }
+        .form-group input:focus, .form-group select:focus { outline:none; border-color:var(--cyan); box-shadow:0 0 0 3px rgba(0,180,216,0.15); }
+        .form-actions { display:flex; gap:0.6rem; justify-content:flex-end; margin-top:1rem; }
+
+        .hamburger { display:none; background:none; border:none; cursor:pointer; width:36px; height:36px; flex-direction:column; justify-content:center; gap:5px; padding:4px; z-index:1100; }
+        .hamburger span { display:block; height:2.5px; background:var(--text); border-radius:2px; transition: all var(--transition); }
+        .hamburger.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+        .hamburger.active span:nth-child(2) { opacity:0; }
+        .hamburger.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+        .sidebar-overlay { display:none; position:fixed; inset:0; background:var(--overlay); z-index:999; }
+        .sidebar-overlay.active { display:block; }
+
+        .action-btn { background:none; border:none; cursor:pointer; padding:0.25rem; border-radius:4px; transition:all var(--transition); font-size:0.9rem; }
+        .action-btn.edit { color: var(--blue); }
+        .action-btn.edit:hover { background: rgba(0,119,182,0.1); }
+        .action-btn.delete { color: var(--danger); }
+        .action-btn.delete:hover { background: rgba(232,164,164,0.2); }
+
+        .pagination { display:flex; justify-content:center; align-items:center; gap:0.5rem; margin-top:1rem; }
+        .pagination button { padding:0.3rem 0.7rem; border:1px solid var(--border); background:var(--card-bg); color:var(--text); border-radius:var(--radius-sm); cursor:pointer; transition:all var(--transition); }
+        .pagination button:hover:not(:disabled) { background:var(--blue); color:#fff; border-color:var(--blue); }
+        .pagination button:disabled { opacity:0.5; cursor:not-allowed; }
+        .pagination span { font-size:0.85rem; color:var(--text-secondary); }
+
+        .performance-explanations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .explanation-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-light);
+        }
+        .explanation-card h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        .explanation-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 1199px) { .charts-row { grid-template-columns:1fr; } .kpi-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); } :root { --sidebar-width: 240px; } }
+        @media (max-width: 991px) {
+            .sidebar { transform:translateX(-100%); } .sidebar.open { transform:translateX(0); box-shadow:8px 0 30px rgba(0,0,0,0.25); }
+            .main-content { margin-left:0; width:100%; } .hamburger { display:flex; } .sidebar-overlay.active { display:block; }
+            .header { padding:0.7rem 1rem; } .content { padding:1rem; } .form-grid { grid-template-columns:1fr; } .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 424px) {
+            .header { flex-direction:column; align-items:flex-start; gap:0.5rem; } .header-right { width:100%; justify-content:flex-start; flex-wrap:wrap; }
+            .kpi-grid { grid-template-columns:1fr 1fr; gap:0.5rem; } .kpi-card { padding:0.8rem; } .kpi-card .kpi-value { font-size:1.2rem; }
+            .filter-group input[type="date"] { width:105px; } .btn { font-size:0.7rem; padding:0.4rem 0.65rem; }
+            .content { padding:0.6rem; gap:0.7rem; } .chart-card { padding:0.7rem; } .chart-card canvas { max-height:200px; } table { font-size:0.68rem; min-width:600px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><div class="logo-icon"><i class="fas fa-chart-line"></i></div><h2>TraderMax<span>Pro</span></h2></div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Principal</div>
+            <a class="active" data-view="dashboard" onclick="setView('dashboard')"><i class="fas fa-th-large"></i> Dashboard Geral</a>
+            <div class="nav-section">Meses</div>
+            <a data-month="0" onclick="selectMonth(0)">Janeiro</a><a data-month="1" onclick="selectMonth(1)">Fevereiro</a>
+            <a data-month="2" onclick="selectMonth(2)">Março</a><a data-month="3" onclick="selectMonth(3)">Abril</a>
+            <a data-month="4" onclick="selectMonth(4)">Maio</a><a data-month="5" onclick="selectMonth(5)">Junho</a>
+            <a data-month="6" onclick="selectMonth(6)">Julho</a><a data-month="7" onclick="selectMonth(7)">Agosto</a>
+            <a data-month="8" onclick="selectMonth(8)">Setembro</a><a data-month="9" onclick="selectMonth(9)">Outubro</a>
+            <a data-month="10" onclick="selectMonth(10)">Novembro</a><a data-month="11" onclick="selectMonth(11)">Dezembro</a>
+            <div class="nav-section">Movimentações</div>
+            <a data-view="aportes" onclick="setView('aportes')"><i class="fas fa-donate"></i> Aportes</a>
+            <a data-view="saques" onclick="setView('saques')"><i class="fas fa-hand-holding-usd"></i> Saques</a>
+            <div class="nav-section">Análise</div>
+            <a data-view="performance" onclick="setView('performance')"><i class="fas fa-tachometer-alt"></i> Performance</a>
+            <div class="nav-section">Ferramentas</div>
+            <a onclick="openOperationModal()"><i class="fas fa-plus-circle"></i> Nova Operação</a>
+            <a onclick="exportCSV()"><i class="fas fa-file-csv"></i> Exportar CSV</a>
+            <a onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Exportar PDF</a>
+            <a class="logout-link"
+                 href="https://sicalc.receita.fazenda.gov.br/sicalc/rapido/contribuinte" target="_blank"rel="noopener noreferrer">
+            <i class="fas fa-sign-out-alt"></i> Pagar DARF 6015</a>
+            <a class="logout-link" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Sair</a>
+        </nav>
+    </aside>
+
+    <div class="main-content" id="mainContent">
+        <header class="header">
+            <div class="header-left">
+                <button class="hamburger" id="hamburgerBtn"><span></span><span></span><span></span></button>
+                <h1 id="pageTitle">Dashboard 2024</h1>
+            </div>
+            <div class="header-right">
+                <div class="filter-group">
+                    <select id="yearSelect" title="Exercício anual"></select>
+                    <button class="btn-icon" onclick="openPreferencesModal()" title="Configurar intervalo de anos"><i class="fas fa-cog"></i></button>
+                    <input type="date" id="filterStart"><span>até</span><input type="date" id="filterEnd">
+                    <button class="btn btn-outline btn-sm" onclick="applyFilter()">Filtrar</button>
+                    <button class="btn btn-outline btn-sm" onclick="clearFilter()">Limpar</button>
+                </div>
+                <button class="btn-icon" onclick="refreshData()" title="Atualizar dados"><i class="fas fa-sync-alt"></i></button>
+                <button class="btn-icon" id="darkModeToggle" title="Alternar Dark Mode"><i class="fas fa-moon"></i></button>
+                <button class="btn btn-primary btn-sm" onclick="openOperationModal()">Nova Operação</button>
+            </div>
+        </header>
+
+        <div class="content" id="dashboardContent"></div>
+    </div>
+
+    <!-- Modal de Configuração de Intervalo de Anos -->
+    <div class="modal-overlay" id="preferencesModalOverlay">
+        <div class="modal">
+            <button class="close-btn" onclick="closePreferencesModal()">&times;</button>
+            <h2><i class="fas fa-cog"></i> Configurar Intervalo de Anos</h2>
+            <form onsubmit="handlePreferencesSubmit(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Ano Inicial</label>
+                        <input type="number" id="prefAnoInicio" min="2000" max="2100" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ano Final</label>
+                        <input type="number" id="prefAnoFim" min="2000" max="2100" required>
+                    </div>
+                </div>
+                <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.5rem;">
+                    Define o intervalo de anos disponível no seletor.
+                </p>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closePreferencesModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modais de Operação (novo e edição) mantidos como antes -->
+    <div class="modal-overlay" id="operationModalOverlay">
+        <div class="modal">
+            <button class="close-btn" onclick="closeOperationModal()">&times;</button>
+            <h2><i class="fas fa-plus-circle"></i> Registrar Operação</h2>
+            <form onsubmit="handleOperationSubmit(event)">
+                <div class="form-grid">
+                    <div class="form-group"><label>Data *</label><input type="date" id="opData" required></div>
+                    <div class="form-group"><label>Resultado do Dia *</label>
+                        <select id="opResultado" required onchange="onResultadoChange()"><option value="">Selecione</option><option value="Positivo">Positivo</option><option value="Negativo">Negativo</option></select>
+                    </div>
+                    <div class="form-group"><label>Valor Bruto (R$) *</label><input type="number" id="opValorBruto" step="0.01" required oninput="calcValorLiquido()"></div>
+                    <div class="form-group"><label>Taxa de Registro BM&F (R$)</label><input type="number" id="opTaxaRegistro" step="0.01" value="0.00" oninput="calcValorLiquido()"></div>
+                    <div class="form-group"><label>Taxas BM&F (emol+f.gar) (R$)</label><input type="number" id="opTaxasBmf" step="0.01" value="0.00" oninput="calcValorLiquido()"></div>
+                    <div class="form-group"><label>IRRF Day Trade (R$)</label><input type="number" id="opIrrf" step="0.01" value="0.00" oninput="calcValorLiquido()"></div>
+                    <div class="form-group"><label>Valor Líquido (R$)</label><input type="text" id="opValorLiquido" readonly></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeOperationModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="editOperationModalOverlay">
+        <div class="modal">
+            <button class="close-btn" onclick="closeEditOperationModal()">&times;</button>
+            <h2><i class="fas fa-edit"></i> Editar Operação</h2>
+            <form onsubmit="handleEditOperationSubmit(event)">
+                <input type="hidden" id="editOpId"/>
+                <div class="form-grid">
+                    <div class="form-group"><label>Data *</label><input type="date" id="editOpData" required></div>
+                    <div class="form-group"><label>Resultado do Dia *</label>
+                        <select id="editOpResultado" required onchange="editOnResultadoChange()"><option value="Positivo">Positivo</option><option value="Negativo">Negativo</option></select>
+                    </div>
+                    <div class="form-group"><label>Valor Bruto (R$) *</label><input type="number" id="editOpValorBruto" step="0.01" required oninput="editCalcValorLiquido()"></div>
+                    <div class="form-group"><label>Taxa de Registro BM&F (R$)</label><input type="number" id="editOpTaxaRegistro" step="0.01" oninput="editCalcValorLiquido()"></div>
+                    <div class="form-group"><label>Taxas BM&F (emol+f.gar) (R$)</label><input type="number" id="editOpTaxasBmf" step="0.01" oninput="editCalcValorLiquido()"></div>
+                    <div class="form-group"><label>IRRF Day Trade (R$)</label><input type="number" id="editOpIrrf" step="0.01" oninput="editCalcValorLiquido()"></div>
+                    <div class="form-group"><label>Valor Líquido (R$)</label><input type="text" id="editOpValorLiquido" readonly></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeEditOperationModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="editAporteModalOverlay">
+        <div class="modal">
+            <button class="close-btn" onclick="closeEditAporteModal()">&times;</button>
+            <h2>Editar Aporte</h2>
+            <form onsubmit="handleEditAporteSubmit(event)">
+                <input type="hidden" id="editAporteId"/>
+                <div class="form-grid">
+                    <div class="form-group"><label>Data *</label><input type="date" id="editAporteData" required></div>
+                    <div class="form-group"><label>Valor (R$) *</label><input type="number" id="editAporteValor" step="0.01" required></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeEditAporteModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="editSaqueModalOverlay">
+        <div class="modal">
+            <button class="close-btn" onclick="closeEditSaqueModal()">&times;</button>
+            <h2>Editar Saque</h2>
+            <form onsubmit="handleEditSaqueSubmit(event)">
+                <input type="hidden" id="editSaqueId"/>
+                <div class="form-grid">
+                    <div class="form-group"><label>Data *</label><input type="date" id="editSaqueData" required></div>
+                    <div class="form-group"><label>Valor (R$) *</label><input type="number" id="editSaqueValor" step="0.01" required></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeEditSaqueModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<script>
+    (() => {
+        const toCents = v => Math.round(parseFloat(v)*100);
+        const fromCents = c => c/100;
+        const fmt = c => 'R$ ' + fromCents(c).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+        const formatISODate = isoStr => { const [y,m,d] = isoStr.split('-'); return `${d}/${m}/${y}`; };
+
+        const currentYear = new Date().getFullYear();
+        let viewingYear = currentYear;
+        let currentMonth = 'all';
+        let currentView = 'dashboard';
+        let darkMode = localStorage.getItem('dtpro-darkmode') === 'true';
+        let allData = {};
+        let filterStart = null, filterEnd = null;
+        let currentPage = 1;
+        const itemsPerPage = 20;
+        let nextId = { op: 1, ap: 1, sq: 1 };
+        function genId(type) { return type + '_' + (nextId[type]++); }
+
+        function initializeData() {
+            const prefs = getPreferences();
+            for (let y = prefs.start; y <= prefs.end; y++) {
+                if (!allData[y]) {
+                    allData[y] = { initialCapitalCents: 0, months: {}, prejuizoAcumuladoInicial: 0 };
+                    for (let m = 0; m < 12; m++) {
+                        allData[y].months[m] = { ops: [], aportes: [], saques: [] };
+                    }
+                }
+            }
+            if (viewingYear < prefs.start) viewingYear = prefs.start;
+            if (viewingYear > prefs.end) viewingYear = prefs.end;
+            populateYearSelect();
+            recalcAllYears();
+        }
+
+        function getPreferences() {
+            const saved = localStorage.getItem('dtpro-year-prefs');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed.start && parsed.end && parsed.end >= parsed.start) {
+                    return parsed;
+                }
+            }
+            return { start: currentYear, end: currentYear + 5 };
+        }
+
+        function savePreferences(start, end) {
+            localStorage.setItem('dtpro-year-prefs', JSON.stringify({ start, end }));
+        }
+
+        function populateYearSelect() {
+            const prefs = getPreferences();
+            const select = document.getElementById('yearSelect');
+            select.innerHTML = '';
+            for (let y = prefs.start; y <= prefs.end; y++) {
+                const option = document.createElement('option');
+                option.value = y;
+                option.textContent = y;
+                if (y === viewingYear) option.selected = true;
+                select.appendChild(option);
+            }
+        }
+
+        function getYearData() { return allData[viewingYear] || { initialCapitalCents:0, months:{}, prejuizoAcumuladoInicial:0 }; }
+        function getAllAportes() { const yd = getYearData(); let all = []; for(let m=0; m<12; m++) if(yd.months[m]) all = all.concat(yd.months[m].aportes); return all; }
+        function getAllSaques() { const yd = getYearData(); let all = []; for(let m=0; m<12; m++) if(yd.months[m]) all = all.concat(yd.months[m].saques); return all; }
+
+        function calcularImpostoAnual(ano) {
+            const yd = allData[ano];
+            if (!yd || !yd.months) return { darfTotal: 0, darfMensal: Array(12).fill(0), prejuizoFinal: yd?.prejuizoAcumuladoInicial || 0 };
+            let saldoPrejuizo = yd.prejuizoAcumuladoInicial || 0;
+            let darfTotal = 0;
+            const darfMensal = Array(12).fill(0);
+            for (let m = 0; m < 12; m++) {
+                if (!yd.months[m]) continue;
+                const liqMes = yd.months[m].ops.reduce((s, o) => s + o.lucroLiquidoCents, 0);
+                if (liqMes < 0) {
+                    saldoPrejuizo += Math.abs(liqMes);
+                } else if (liqMes > 0) {
+                    const abater = Math.min(liqMes, saldoPrejuizo);
+                    const lucroTributavel = liqMes - abater;
+                    saldoPrejuizo -= abater;
+                    if (lucroTributavel > 0) {
+                        const darfMes = Math.round(lucroTributavel * 0.19);
+                        darfMensal[m] = darfMes;
+                        darfTotal += darfMes;
+                    }
+                }
+            }
+            return { darfTotal, darfMensal, prejuizoFinal: saldoPrejuizo };
+        }
+
+        function recalcAllYears() {
+            const prefs = getPreferences();
+            let prejuizoAnterior = 0;
+            for (let y = prefs.start; y <= prefs.end; y++) {
+                const yd = allData[y];
+                if (!yd) continue;
+                yd.prejuizoAcumuladoInicial = prejuizoAnterior;
+                const { darfTotal, darfMensal, prejuizoFinal } = calcularImpostoAnual(y);
+                yd._darfCalculado = darfTotal;
+                yd._darfMensal = darfMensal;
+                prejuizoAnterior = prejuizoFinal;
+            }
+        }
+
+        function getAccumulated(untilMonth) {
+            const yd = getYearData(); let aportes=0, liq=0, saques=0;
+            for(let m=0; m<=untilMonth; m++) { if(yd.months[m]) { aportes += yd.months[m].aportes.reduce((s,a)=>s+a.amountCents,0); liq += yd.months[m].ops.reduce((s,o)=>s+o.lucroLiquidoCents,0); saques += yd.months[m].saques.reduce((s,a)=>s+a.amountCents,0); } }
+            return { aportes, liq, saques };
+        }
+
+        function renderView() {
+            const content = document.getElementById('dashboardContent');
+            document.getElementById('pageTitle').textContent = {
+                dashboard: currentMonth==='all'?`Dashboard ${viewingYear}`:`${['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][currentMonth]} ${viewingYear}`,
+                aportes: `Aportes ${viewingYear}`,
+                saques: `Saques ${viewingYear}`,
+                performance: `Performance ${viewingYear}`
+            }[currentView] || '';
+
+            if (currentView === 'dashboard') {
+                renderDashboard(content);
+            } else if (currentView === 'aportes') {
+                renderAportesPage(content);
+            } else if (currentView === 'saques') {
+                renderSaquesPage(content);
+            } else if (currentView === 'performance') {
+                renderPerformance(content);
+            }
+
+            document.querySelectorAll('.sidebar-nav a[data-view]').forEach(a => a.classList.remove('active'));
+            const activeLink = document.querySelector(`.sidebar-nav a[data-view="${currentView}"]`);
+            if(activeLink) activeLink.classList.add('active');
+            if(currentView === 'dashboard') {
+                const dashboardLink = document.querySelector('.sidebar-nav a[data-view="dashboard"]');
+                if(dashboardLink) dashboardLink.classList.add('active');
+            }
+        }
+
+        function renderDashboard(container) {
+            const ops = getFilteredOps(); const yd = getYearData(); const initCap = yd.initialCapitalCents;
+            const until = currentMonth==='all'?11:parseInt(currentMonth); const acc = getAccumulated(until);
+            const totalAportado = initCap + acc.aportes;
+            
+            const darfMensal = yd._darfMensal || Array(12).fill(0);
+            const darf = currentMonth === 'all' ? (yd._darfCalculado || 0) : (darfMensal[currentMonth] || 0);
+            
+            const totalBruto = ops.reduce((s,o) => s + o.lucroBrutoCents, 0);
+            const liqPeriodo = ops.reduce((s,o) => s + o.lucroLiquidoCents, 0);
+            const lucroLiquidoFinal = liqPeriodo - darf;
+            const capitalEstimado = totalAportado + acc.liq - acc.saques - (yd._darfCalculado || 0);
+            const irrfTotal = ops.filter(o=>o.resultado==='Positivo').reduce((s,o)=>s+(o.irrfCents||0),0);
+            const taxaRegistroTotal = ops.reduce((s,o)=>s+(o.taxaRegistroCents||0),0);
+            const taxasBmfTotal = ops.reduce((s,o)=>s+(o.taxasBmfCents||0),0);
+            const custosOperacionais = taxaRegistroTotal + taxasBmfTotal;
+            const ganhoCapitalPercent = totalAportado > 0 ? (lucroLiquidoFinal / totalAportado) * 100 : 0;
+
+            const totalItems = ops.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            if (currentPage > totalPages) currentPage = totalPages || 1;
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const pagedOps = ops.slice(startIdx, startIdx + itemsPerPage);
+
+            container.innerHTML = `
+                <div class="kpi-grid" id="kpiGrid">${buildKpiCards(totalBruto, liqPeriodo, lucroLiquidoFinal, darf, irrfTotal, custosOperacionais, capitalEstimado, totalAportado, acc.saques, ganhoCapitalPercent)}</div>
+                <div class="charts-row">
+                    <div class="chart-card"><h3>Valor Líquido por Operação</h3><canvas id="chartLucroLiquido"></canvas></div>
+                    <div class="chart-card"><h3>Operações Positivas vs Negativas</h3><canvas id="chartPizzaOperacoes"></canvas></div>
+                </div>
+                <div class="table-card">
+                    <h3>Operações do Período</h3>
+                    <div class="table-wrapper"><table><thead><tr><th>Data</th><th>Resultado</th><th>Valor Bruto</th><th>Valor Líquido</th><th>Ações</th></tr></thead><tbody id="tableBody">${buildOpsTable(pagedOps)}</tbody></table></div>
+                    ${totalPages > 1 ? buildPagination(currentPage, totalPages) : ''}
+                </div>
+            `;
+            updateCharts(ops);
+        }
+
+        function buildPagination(page, total) {
+            return `
+            <div class="pagination">
+                <button onclick="changePage(1)" ${page === 1 ? 'disabled' : ''}><i class="fas fa-angle-double-left"></i></button>
+                <button onclick="changePage(${page - 1})" ${page === 1 ? 'disabled' : ''}><i class="fas fa-angle-left"></i></button>
+                <span>Página ${page} de ${total}</span>
+                <button onclick="changePage(${page + 1})" ${page === total ? 'disabled' : ''}><i class="fas fa-angle-right"></i></button>
+                <button onclick="changePage(${total})" ${page === total ? 'disabled' : ''}><i class="fas fa-angle-double-right"></i></button>
+            </div>`;
+        }
+
+        window.changePage = (page) => {
+            currentPage = page;
+            renderView();
+        };
+
+        function buildKpiCards(totalBruto, liq, liqFinal, darf, irrf, custosOperacionais, capital, aportado, saques, ganhoCapitalPercent) {
+            const darfLabel = currentMonth === 'all' ? 'Total pago em DARF (19% comp.)' : 'DARF À Pagar (19% comp.)';
+            return `
+                <div class="kpi-card ${totalBruto>=0?'positive':'negative'}"><div class="kpi-icon"><i class="fas fa-chart-bar"></i></div><div class="kpi-label">Valor Total de Negócios</div><div class="kpi-value">${fmt(totalBruto)}</div></div>
+                <div class="kpi-card ${liq>=0?'positive':'negative'}"><div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div><div class="kpi-label">Valor Bruto</div><div class="kpi-value">${fmt(liq)}</div></div>
+                <div class="kpi-card ${liqFinal>=0?'positive':'negative'}"><div class="kpi-icon"><i class="fas fa-wallet"></i></div><div class="kpi-label">Valor Líquido</div><div class="kpi-value">${fmt(liqFinal)}</div><div class="kpi-sub">Após DARF</div></div>
+                <div class="kpi-card ${ganhoCapitalPercent>=0?'positive':'negative'}"><div class="kpi-icon"><i class="fas fa-percent"></i></div><div class="kpi-label">Ganho de Capital (%)</div><div class="kpi-value">${ganhoCapitalPercent.toFixed(2)}%</div></div>
+                <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-file-invoice"></i></div><div class="kpi-label">${darfLabel}</div><div class="kpi-value">${fmt(darf)}</div><div class="kpi-sub">Com compensação legal</div></div>
+                <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-hand-holding-usd"></i></div><div class="kpi-label">IRRF Day Trade Retido na Fonte</div><div class="kpi-value">${fmt(irrf)}</div></div>
+                <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-calculator"></i></div><div class="kpi-label">Total de Custos Operacionais</div><div class="kpi-value">${fmt(custosOperacionais)}</div></div>
+                <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-coins"></i></div><div class="kpi-label">Capital Estimado</div><div class="kpi-value">${fmt(capital)}</div></div>
+                <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-donate"></i></div><div class="kpi-label">Total Aportado</div><div class="kpi-value">${fmt(aportado)}</div></div>
+                <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-hand-holding-usd"></i></div><div class="kpi-label">Saque Realizado</div><div class="kpi-value">${fmt(saques)}</div></div>
+            `;
+        }
+
+        function buildOpsTable(ops) {
+            return ops.length ? ops.map(o => `<tr><td>${formatISODate(o.data)}</td><td><span class="badge ${o.resultado==='Positivo'?'badge-profit':'badge-loss'}">${o.resultado}</span></td><td>${fmt(o.lucroBrutoCents)}</td><td>${fmt(o.lucroLiquidoCents)}</td><td><button class="action-btn edit" onclick="openEditOperationModal('${o.id}')"><i class="fas fa-edit"></i></button><button class="action-btn delete" onclick="deleteOperation('${o.id}')"><i class="fas fa-trash-alt"></i></button></td></tr>`).join('') : '<tr><td colspan="5">Nenhuma operação</td></tr>';
+        }
+
+        function renderPerformance(container) {
+            const ops = getFilteredOps();
+            if (!ops.length) {
+                container.innerHTML = `<div class="table-card"><h3>Performance</h3><p style="text-align:center; padding:2rem;">Nenhuma operação no período para calcular métricas.</p></div>`;
+                return;
+            }
+            const m = calcularMetricas(ops);
+            const f = (v) => v === Infinity ? '∞' : (typeof v === 'number' ? v.toFixed(2) : v);
+            const formatPct = (v) => v.toFixed(2) + '%';
+            const formatSeq = (v) => v.toString();
+
+            container.innerHTML = `
+                <div class="kpi-grid">
+                    <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-bullseye"></i></div><div class="kpi-label">Taxa de Acerto</div><div class="kpi-value">${formatPct(m.taxaAcerto)}</div></div>
+                    <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-balance-scale"></i></div><div class="kpi-label">Payoff</div><div class="kpi-value">${f(m.payoff)}</div></div>
+                    <div class="kpi-card ${m.expectativa >= 0 ? 'positive' : 'negative'}"><div class="kpi-icon"><i class="fas fa-chart-line"></i></div><div class="kpi-label">Expectativa Matemática</div><div class="kpi-value">${fmt(m.expectativa)}</div></div>
+                    <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-arrow-down"></i></div><div class="kpi-label">Drawdown Máximo</div><div class="kpi-value">${fmt(m.maxDrawdown)}</div></div>
+                    <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-skull"></i></div><div class="kpi-label">Máx. Seq. Perdas</div><div class="kpi-value">${formatSeq(m.maxSeqPerda)}</div></div>
+                    <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-trophy"></i></div><div class="kpi-label">Máx. Seq. Ganhos</div><div class="kpi-value">${formatSeq(m.maxSeqGanho)}</div></div>
+                    <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-calendar-check"></i></div><div class="kpi-label">Melhor Dia</div><div class="kpi-value">${formatISODate(m.melhorDia.data)}</div><div class="kpi-sub">${fmt(m.melhorDia.lucroLiquidoCents)}</div></div>
+                    <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-calendar-times"></i></div><div class="kpi-label">Pior Dia</div><div class="kpi-value">${formatISODate(m.piorDia.data)}</div><div class="kpi-sub">${fmt(m.piorDia.lucroLiquidoCents)}</div></div>
+                    <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-calendar-alt"></i></div><div class="kpi-label">Melhor Mês</div><div class="kpi-value">${m.melhorMes.mes}</div><div class="kpi-sub">${fmt(m.melhorMes.val)}</div></div>
+                    <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-calendar-alt"></i></div><div class="kpi-label">Pior Mês</div><div class="kpi-value">${m.piorMes.mes}</div><div class="kpi-sub">${fmt(m.piorMes.val)}</div></div>
+                </div>
+                <div class="charts-row">
+                    <div class="chart-card"><h3>Curva de Capital (Equity)</h3><canvas id="chartEquity"></canvas></div>
+                    <div class="chart-card"><h3>Resultado Mensal</h3><canvas id="chartMensal"></canvas></div>
+                </div>
+                <div class="performance-explanations">
+                    <div class="explanation-card"><h4>Taxa de Acerto</h4><p>Percentual de operações que terminaram com lucro. Uma taxa acima de 50% não garante rentabilidade se as perdas forem muito maiores que os ganhos.</p></div>
+                    <div class="explanation-card"><h4>Payoff</h4><p>Relação entre o ganho médio e a perda média. Um payoff maior que 1 indica que, em média, você ganha mais do que perde por operação. Ideal acima de 1,5.</p></div>
+                    <div class="explanation-card"><h4>Expectativa Matemática</h4><p>Lucro médio esperado por operação. Se positivo, sua estratégia tende a ser lucrativa no longo prazo; se negativo, as perdas superam os ganhos.</p></div>
+                    <div class="explanation-card"><h4>Drawdown Máximo</h4><p>Maior queda percentual a partir de um pico anterior. Revela o risco de uma sequência de perdas e ajuda a dimensionar o capital necessário para suportar períodos ruins.</p></div>
+                </div>
+            `;
+            updatePerformanceCharts(ops);
+        }
+
+        function calcularMetricas(ops) {
+            const positivas = ops.filter(o => o.resultado === 'Positivo');
+            const negativas = ops.filter(o => o.resultado === 'Negativo');
+            const taxaAcerto = (positivas.length / ops.length) * 100;
+
+            const ganhoMedio = positivas.length ? positivas.reduce((s, o) => s + o.lucroLiquidoCents, 0) / positivas.length : 0;
+            const perdaMedio = negativas.length ? Math.abs(negativas.reduce((s, o) => s + o.lucroLiquidoCents, 0)) / negativas.length : 0;
+            const payoff = perdaMedio > 0 ? ganhoMedio / perdaMedio : (ganhoMedio > 0 ? Infinity : 1);
+
+            const expectativa = (taxaAcerto / 100) * ganhoMedio - ((1 - taxaAcerto / 100)) * perdaMedio;
+
+            let pico = -Infinity, maxDrawdown = 0, capitalAtual = 0;
+            for (const o of ops) {
+                capitalAtual += o.lucroLiquidoCents;
+                if (capitalAtual > pico) pico = capitalAtual;
+                const drawdown = pico - capitalAtual;
+                if (drawdown > maxDrawdown) maxDrawdown = drawdown;
+            }
+
+            let seqPerda = 0, maxSeqPerda = 0, seqGanho = 0, maxSeqGanho = 0;
+            for (const o of ops) {
+                if (o.resultado === 'Negativo') {
+                    seqPerda++;
+                    seqGanho = 0;
+                    if (seqPerda > maxSeqPerda) maxSeqPerda = seqPerda;
+                } else {
+                    seqGanho++;
+                    seqPerda = 0;
+                    if (seqGanho > maxSeqGanho) maxSeqGanho = seqGanho;
+                }
+            }
+
+            const melhorDia = ops.reduce((max, o) => o.lucroLiquidoCents > max.lucroLiquidoCents ? o : max, ops[0]);
+            const piorDia = ops.reduce((min, o) => o.lucroLiquidoCents < min.lucroLiquidoCents ? o : min, ops[0]);
+
+            const porMes = {};
+            ops.forEach(o => {
+                const mes = o.data.substring(0, 7);
+                porMes[mes] = (porMes[mes] || 0) + o.lucroLiquidoCents;
+            });
+            const meses = Object.entries(porMes);
+            const melhorMes = meses.reduce((max, [mes, val]) => val > max.val ? {mes, val} : max, {mes: '', val: -Infinity});
+            const piorMes = meses.reduce((min, [mes, val]) => val < min.val ? {mes, val} : min, {mes: '', val: Infinity});
+
+            // Formata mês de "YYYY-MM" para "MM/AAAA"
+            const formatMes = (mesAno) => {
+                if (!mesAno) return '';
+                const [ano, mes] = mesAno.split('-');
+                return `${mes}/${ano}`;
+            };
+
+            return {
+                taxaAcerto, payoff, expectativa, maxDrawdown,
+                maxSeqPerda, maxSeqGanho,
+                melhorDia, piorDia,
+                melhorMes: { mes: formatMes(melhorMes.mes), val: melhorMes.val },
+                piorMes:   { mes: formatMes(piorMes.mes),   val: piorMes.val }
+            };
+        }
+
+        function updatePerformanceCharts(ops) {
+            const ctxEquity = document.getElementById('chartEquity')?.getContext('2d');
+            if (ctxEquity) {
+                if (window.perfChartEquity) window.perfChartEquity.destroy();
+                const labels = ops.map(o => formatISODate(o.data));
+                let acum = 0;
+                const data = ops.map(o => { acum += o.lucroLiquidoCents; return fromCents(acum); });
+                window.perfChartEquity = new Chart(ctxEquity, {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: 'Lucro Acumulado (R$)',
+                            data,
+                            borderColor: '#0077b6',
+                            backgroundColor: 'rgba(0,180,216,0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: true }
+                });
+            }
+
+            const ctxMensal = document.getElementById('chartMensal')?.getContext('2d');
+            if (ctxMensal) {
+                if (window.perfChartMensal) window.perfChartMensal.destroy();
+                const porMes = {};
+                ops.forEach(o => {
+                    const mes = o.data.substring(0, 7);
+                    porMes[mes] = (porMes[mes] || 0) + o.lucroLiquidoCents;
+                });
+                const mesesOrdenados = Object.keys(porMes).sort();
+                const valores = mesesOrdenados.map(m => fromCents(porMes[m]));
+                window.perfChartMensal = new Chart(ctxMensal, {
+                    type: 'bar',
+                    data: {
+                        labels: mesesOrdenados,
+                        datasets: [{
+                            label: 'Resultado Mensal (R$)',
+                            data: valores,
+                            backgroundColor: valores.map(v => v >= 0 ? '#6DBF9C' : '#E8A4A4'),
+                            borderRadius: 6
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: true }
+                });
+            }
+        }
+
+        function renderAportesPage(container) {
+            const aportes = getAllAportes();
+            container.innerHTML = `
+                <div class="table-card">
+                    <h3>Adicionar Aporte</h3>
+                    <form onsubmit="handleAporteSubmit(event)" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:flex-end;">
+                        <div class="form-group"><label>Data</label><input type="date" id="aporteData" required value="${new Date().toISOString().split('T')[0]}"></div>
+                        <div class="form-group"><label>Valor (R$)</label><input type="number" id="aporteValor" step="0.01" required placeholder="0,00"></div>
+                        <button type="submit" class="btn btn-primary" style="height:40px;">Adicionar</button>
+                    </form>
+                </div>
+                <div class="table-card">
+                    <h3>Aportes de ${viewingYear}</h3>
+                    <div class="table-wrapper">
+                        <table><thead><tr><th>Data</th><th>Valor</th><th>Ações</th></tr></thead>
+                            <tbody>${aportes.length ? aportes.map(a => `<tr><td>${formatISODate(a.data)}</td><td>${fmt(a.amountCents)}</td><td><button class="action-btn edit" onclick="openEditAporteModal('${a.id}')"><i class="fas fa-edit"></i></button><button class="action-btn delete" onclick="deleteAporte('${a.id}')"><i class="fas fa-trash-alt"></i></button></td></tr>`).join('') : '<tr><td colspan="3">Nenhum aporte</td></tr>'}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSaquesPage(container) {
+            const saques = getAllSaques();
+            container.innerHTML = `
+                <div class="table-card">
+                    <h3>Adicionar Saque</h3>
+                    <form onsubmit="handleSaqueSubmit(event)" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:flex-end;">
+                        <div class="form-group"><label>Data</label><input type="date" id="saqueData" required value="${new Date().toISOString().split('T')[0]}"></div>
+                        <div class="form-group"><label>Valor (R$)</label><input type="number" id="saqueValor" step="0.01" required placeholder="0,00"></div>
+                        <button type="submit" class="btn btn-primary" style="height:40px;">Adicionar</button>
+                    </form>
+                </div>
+                <div class="table-card">
+                    <h3>Saques de ${viewingYear}</h3>
+                    <div class="table-wrapper">
+                        <table><thead><tr><th>Data</th><th>Valor</th><th>Ações</th></tr></thead>
+                            <tbody>${saques.length ? saques.map(s => `<tr><td>${formatISODate(s.data)}</td><td>${fmt(s.amountCents)}</td><td><button class="action-btn edit" onclick="openEditSaqueModal('${s.id}')"><i class="fas fa-edit"></i></button><button class="action-btn delete" onclick="deleteSaque('${s.id}')"><i class="fas fa-trash-alt"></i></button></td></tr>`).join('') : '<tr><td colspan="3">Nenhum saque</td></tr>'}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getFilteredOps() {
+            const yd = getYearData(); let ops = [];
+            const months = currentMonth==='all' ? [...Array(12).keys()] : [parseInt(currentMonth)];
+            months.forEach(m => { if(yd.months[m]) ops = ops.concat(yd.months[m].ops); });
+            if(filterStart||filterEnd) {
+                const s = filterStart ? new Date(filterStart + 'T00:00:00').getTime() : null;
+                const e = filterEnd ? new Date(filterEnd + 'T00:00:00').getTime() : null;
+                ops = ops.filter(o => { const d = new Date(o.data + 'T00:00:00').getTime(); return (!s||d>=s) && (!e||d<=e); });
+            }
+            return ops;
+        }
+
+        function findOpById(id) { for(const year in allData) { const yd = allData[year]; for(const m in yd.months) { const idx = yd.months[m].ops.findIndex(o=>o.id==id); if(idx!==-1) return { op:yd.months[m].ops[idx], year, month:parseInt(m), index:idx }; } } return null; }
+        function findAporteById(id) { for(const y in allData) for(const m in allData[y].months) { const idx = allData[y].months[m].aportes.findIndex(a=>a.id==id); if(idx!==-1) return { item:allData[y].months[m].aportes[idx], year:y, month:m, index:idx }; } return null; }
+        function findSaqueById(id) { for(const y in allData) for(const m in allData[y].months) { const idx = allData[y].months[m].saques.findIndex(s=>s.id==id); if(idx!==-1) return { item:allData[y].months[m].saques[idx], year:y, month:m, index:idx }; } return null; }
+
+        function fillEditModal(op) {
+            document.getElementById('editOpId').value = op.id;
+            document.getElementById('editOpData').value = op.data;
+            document.getElementById('editOpResultado').value = op.resultado;
+            document.getElementById('editOpValorBruto').value = Math.abs(fromCents(op.lucroBrutoCents)).toFixed(2);
+            document.getElementById('editOpTaxaRegistro').value = fromCents(op.taxaRegistroCents||0).toFixed(2);
+            document.getElementById('editOpTaxasBmf').value = fromCents(op.taxasBmfCents||0).toFixed(2);
+            document.getElementById('editOpIrrf').value = fromCents(op.irrfCents||0).toFixed(2);
+            updateIrrfField('editOp', op.resultado);
+            editCalcValorLiquido();
+        }
+
+        function getOpFormData(prefix) {
+            const resultado = document.getElementById(prefix+'Resultado').value;
+            let bruto = toCents(document.getElementById(prefix+'ValorBruto').value||'0');
+            const taxaRegistro = toCents(document.getElementById(prefix+'TaxaRegistro').value||'0');
+            const taxasBmf = toCents(document.getElementById(prefix+'TaxasBmf').value||'0');
+            let irrf = toCents(document.getElementById(prefix+'Irrf').value||'0');
+            if(resultado==='Negativo') { bruto = -Math.abs(bruto); irrf = 0; }
+            const liquido = bruto - taxaRegistro - taxasBmf - irrf;
+            return { bruto, taxaRegistro, taxasBmf, irrf, liquido, resultado };
+        }
+
+        function updateIrrfField(prefix, resultado) {
+            const irrf = document.getElementById(prefix+'Irrf');
+            if(resultado==='Negativo') { irrf.value='0.00'; irrf.setAttribute('readonly',true); }
+            else irrf.removeAttribute('readonly');
+        }
+
+        window.openOperationModal = () => { document.getElementById('operationModalOverlay').classList.add('active'); document.getElementById('opData').value=new Date().toISOString().split('T')[0]; document.getElementById('opResultado').value=''; document.getElementById('opValorBruto').value=''; document.getElementById('opTaxaRegistro').value='0.00'; document.getElementById('opTaxasBmf').value='0.00'; document.getElementById('opIrrf').value='0.00'; document.getElementById('opIrrf').removeAttribute('readonly'); };
+        window.closeOperationModal = () => document.getElementById('operationModalOverlay').classList.remove('active');
+        window.closeEditOperationModal = () => document.getElementById('editOperationModalOverlay').classList.remove('active');
+        window.closeEditAporteModal = () => document.getElementById('editAporteModalOverlay').classList.remove('active');
+        window.closeEditSaqueModal = () => document.getElementById('editSaqueModalOverlay').classList.remove('active');
+
+        window.openEditOperationModal = (id) => { const found = findOpById(id); if(!found) return; fillEditModal(found.op); document.getElementById('editOperationModalOverlay').classList.add('active'); };
+        window.openEditAporteModal = (id) => { const f = findAporteById(id); if(!f) return; document.getElementById('editAporteId').value = id; document.getElementById('editAporteData').value = f.item.data; document.getElementById('editAporteValor').value = fromCents(f.item.amountCents).toFixed(2); document.getElementById('editAporteModalOverlay').classList.add('active'); };
+        window.openEditSaqueModal = (id) => { const f = findSaqueById(id); if(!f) return; document.getElementById('editSaqueId').value = id; document.getElementById('editSaqueData').value = f.item.data; document.getElementById('editSaqueValor').value = fromCents(f.item.amountCents).toFixed(2); document.getElementById('editSaqueModalOverlay').classList.add('active'); };
+
+        window.onResultadoChange = () => { updateIrrfField('op', document.getElementById('opResultado').value); calcValorLiquido(); };
+        window.editOnResultadoChange = () => { updateIrrfField('editOp', document.getElementById('editOpResultado').value); editCalcValorLiquido(); };
+        window.calcValorLiquido = () => { const { liquido } = getOpFormData('op'); document.getElementById('opValorLiquido').value = fromCents(liquido).toFixed(2); };
+        window.editCalcValorLiquido = () => { const { liquido } = getOpFormData('editOp'); document.getElementById('editOpValorLiquido').value = fromCents(liquido).toFixed(2); };
+
+        window.handleOperationSubmit = (e) => {
+            e.preventDefault();
+            const data = document.getElementById('opData').value;
+            const { bruto, taxaRegistro, taxasBmf, irrf, liquido, resultado } = getOpFormData('op');
+            const [anoStr, mesStr] = data.split('-'); const ano = parseInt(anoStr), mes = parseInt(mesStr)-1;
+            if(!allData[ano]) { allData[ano]={initialCapitalCents:0,months:{}}; for(let i=0;i<12;i++) allData[ano].months[i]={ops:[],aportes:[],saques:[]}; }
+            allData[ano].months[mes].ops.push({ id: genId('op'), data, resultado, lucroBrutoCents:bruto, taxaRegistroCents:taxaRegistro, taxasBmfCents:taxasBmf, irrfCents:irrf, lucroLiquidoCents:liquido });
+            allData[ano].months[mes].ops.sort((a,b)=>a.data.localeCompare(b.data));
+            if(viewingYear!==ano) { viewingYear=ano; document.getElementById('yearSelect').value=ano; }
+            recalcAllYears();
+            closeOperationModal(); renderView();
+        };
+
+        window.handleEditOperationSubmit = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editOpId').value;
+            const found = findOpById(id); if(!found) return;
+            const data = document.getElementById('editOpData').value;
+            const { bruto, taxaRegistro, taxasBmf, irrf, liquido, resultado } = getOpFormData('editOp');
+            found.op.data = data; found.op.resultado = resultado;
+            found.op.lucroBrutoCents = bruto; found.op.taxaRegistroCents = taxaRegistro;
+            found.op.taxasBmfCents = taxasBmf; found.op.irrfCents = irrf;
+            found.op.lucroLiquidoCents = liquido;
+            recalcAllYears();
+            closeEditOperationModal(); renderView();
+        };
+
+        window.deleteOperation = (id) => { if(!confirm('Excluir operação?')) return; const found = findOpById(id); if(!found) return; allData[found.year].months[found.month].ops.splice(found.index,1); recalcAllYears(); renderView(); };
+
+        window.handleAporteSubmit = (e) => {
+            e.preventDefault();
+            const data = document.getElementById('aporteData').value;
+            const valor = toCents(document.getElementById('aporteValor').value);
+            const [anoStr, mesStr] = data.split('-'); const ano = parseInt(anoStr), mes = parseInt(mesStr)-1;
+            if(!allData[ano]) { allData[ano]={initialCapitalCents:0,months:{}}; for(let i=0;i<12;i++) allData[ano].months[i]={ops:[],aportes:[],saques:[]}; }
+            allData[ano].months[mes].aportes.push({ id: genId('ap'), data, amountCents: valor });
+            if(viewingYear!==ano) { viewingYear=ano; document.getElementById('yearSelect').value=ano; }
+            renderView();
+        };
+
+        window.handleSaqueSubmit = (e) => {
+            e.preventDefault();
+            const data = document.getElementById('saqueData').value;
+            const valor = toCents(document.getElementById('saqueValor').value);
+            const [anoStr, mesStr] = data.split('-'); const ano = parseInt(anoStr), mes = parseInt(mesStr)-1;
+            if(!allData[ano]) { allData[ano]={initialCapitalCents:0,months:{}}; for(let i=0;i<12;i++) allData[ano].months[i]={ops:[],aportes:[],saques:[]}; }
+            allData[ano].months[mes].saques.push({ id: genId('sq'), data, amountCents: valor });
+            if(viewingYear!==ano) { viewingYear=ano; document.getElementById('yearSelect').value=ano; }
+            renderView();
+        };
+
+        window.handleEditAporteSubmit = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editAporteId').value;
+            const f = findAporteById(id); if(!f) return;
+            f.item.data = document.getElementById('editAporteData').value;
+            f.item.amountCents = toCents(document.getElementById('editAporteValor').value);
+            closeEditAporteModal(); renderView();
+        };
+
+        window.handleEditSaqueSubmit = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editSaqueId').value;
+            const f = findSaqueById(id); if(!f) return;
+            f.item.data = document.getElementById('editSaqueData').value;
+            f.item.amountCents = toCents(document.getElementById('editSaqueValor').value);
+            closeEditSaqueModal(); renderView();
+        };
+
+        window.deleteAporte = (id) => { if(!confirm('Excluir aporte?')) return; const f = findAporteById(id); if(f) { allData[f.year].months[f.month].aportes.splice(f.index,1); renderView(); } };
+        window.deleteSaque = (id) => { if(!confirm('Excluir saque?')) return; const f = findSaqueById(id); if(f) { allData[f.year].months[f.month].saques.splice(f.index,1); renderView(); } };
+
+        window.setView = (view) => { currentView = view; currentMonth = 'all'; currentPage = 1; renderView(); if(window.innerWidth<=991) closeSidebar(); };
+        window.selectMonth = (month) => { currentMonth = month==='all'?'all':parseInt(month); currentView = 'dashboard'; currentPage = 1; renderView(); if(window.innerWidth<=991) closeSidebar(); };
+        window.applyFilter = () => { filterStart=document.getElementById('filterStart').value||null; filterEnd=document.getElementById('filterEnd').value||null; currentPage = 1; renderView(); };
+        window.clearFilter = () => { document.getElementById('filterStart').value=''; document.getElementById('filterEnd').value=''; filterStart=filterEnd=null; currentPage = 1; renderView(); };
+        window.refreshData = () => { initializeData(); currentPage = 1; renderView(); };
+        window.exportCSV = () => { const ops = getFilteredOps(); const csv = ['Data,Resultado,Valor Bruto,Valor Líquido', ...ops.map(o=>`${o.data},${o.resultado},${fromCents(o.lucroBrutoCents).toFixed(2)},${fromCents(o.lucroLiquidoCents).toFixed(2)}`)].join('\n'); const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`operacoes_${viewingYear}.csv`; a.click(); };
+        window.exportPDF = () => window.print();
+        window.handleLogout = () => {};
+
+        function toggleDarkMode() { darkMode=!darkMode; localStorage.setItem('dtpro-darkmode',darkMode); document.body.classList.toggle('dark-mode',darkMode); document.getElementById('darkModeToggle').innerHTML = darkMode?'<i class="fas fa-sun"></i>':'<i class="fas fa-moon"></i>'; }
+
+        let chartLiq = null, chartPizza = null;
+        function updateCharts(ops) {
+            const labels = ops.map(o => formatISODate(o.data));
+            if(chartLiq) chartLiq.destroy();
+            const ctxLinha = document.getElementById('chartLucroLiquido')?.getContext('2d');
+            if(ctxLinha) {
+                chartLiq = new Chart(ctxLinha, {
+                    type: 'line', data: { labels, datasets: [{ label: 'Valor Líquido (R$)', data: ops.map(o => fromCents(o.lucroLiquidoCents)), borderColor: '#0077b6', backgroundColor: 'rgba(0,180,216,0.15)', fill: true, tension: 0.4, pointRadius: 4, borderWidth: 2.5 }] },
+                    options: { responsive: true, maintainAspectRatio: true }
+                });
+            }
+            if(chartPizza) chartPizza.destroy();
+            const ctxPizza = document.getElementById('chartPizzaOperacoes')?.getContext('2d');
+            if(ctxPizza) {
+                const positivas = ops.filter(o => o.resultado === 'Positivo').length;
+                const negativas = ops.length - positivas;
+                chartPizza = new Chart(ctxPizza, {
+                    type: 'pie', data: { labels: ['Positivas', 'Negativas'], datasets: [{ data: [positivas, negativas], backgroundColor: ['#6DBF9C', '#E8A4A4'], borderColor: '#ffffff', borderWidth: 2 }] },
+                    options: { responsive: true, plugins: { tooltip: { callbacks: { label: (context) => { const value = context.raw; const percentage = ((value / ops.length) * 100).toFixed(1); return ` ${context.label}: ${value} (${percentage}%)`; } } } } }
+                });
+            }
+        }
+
+        window.openPreferencesModal = () => {
+            const prefs = getPreferences();
+            document.getElementById('prefAnoInicio').value = prefs.start;
+            document.getElementById('prefAnoFim').value = prefs.end;
+            document.getElementById('preferencesModalOverlay').classList.add('active');
+        };
+        window.closePreferencesModal = () => document.getElementById('preferencesModalOverlay').classList.remove('active');
+        window.handlePreferencesSubmit = (e) => {
+            e.preventDefault();
+            const inicio = parseInt(document.getElementById('prefAnoInicio').value);
+            const fim = parseInt(document.getElementById('prefAnoFim').value);
+            if (isNaN(inicio) || isNaN(fim) || inicio > fim || inicio < 2000 || fim > 2100) {
+                alert('Intervalo inválido.');
+                return;
+            }
+            savePreferences(inicio, fim);
+            for (let y = inicio; y <= fim; y++) {
+                if (!allData[y]) {
+                    allData[y] = { initialCapitalCents: 0, months: {}, prejuizoAcumuladoInicial: 0 };
+                    for (let m = 0; m < 12; m++) allData[y].months[m] = { ops: [], aportes: [], saques: [] };
+                }
+            }
+            if (viewingYear < inicio) viewingYear = inicio;
+            if (viewingYear > fim) viewingYear = fim;
+            populateYearSelect();
+            recalcAllYears();
+            closePreferencesModal();
+            renderView();
+        };
+
+        document.getElementById('yearSelect').addEventListener('change', (e) => {
+            viewingYear = parseInt(e.target.value);
+            currentPage = 1;
+            renderView();
+        });
+        document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+        document.getElementById('hamburgerBtn').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
+        document.querySelectorAll('.modal-overlay').forEach(ov => ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('active'); }));
+
+        function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('active'); }
+
+        initializeData();
+        if(darkMode) document.body.classList.add('dark-mode');
+        renderView();
+    })();
+</script>
+</body>
+</html>
