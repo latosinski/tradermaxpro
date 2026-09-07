@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import ContactForm from "@/components/ContactForm";
 import {
   Calculator,
   ChartLineUp,
@@ -29,7 +30,7 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-image" data-aos="fade-left" data-aos-delay="200">
-          <img src="/img/tela.png" alt="Tela do TraderMaxPro" />
+          <img src="/img/tela.jpg" alt="Tela do TraderMaxPro" />
         </div>
       </section>
 
@@ -89,7 +90,7 @@ export default function Home() {
         <p className="section-subtitle" data-aos="fade-up">Imagem real do software. Licença vitalícia com atualizações gratuitas.</p>
         <div className="demo-container">
           <div className="demo-screenshot" data-aos="fade-right">
-            <img src="/img/performance.png" alt="Tela do TraderMaxPro" />
+            <img src="/img/performance.jpg" alt="Tela do TraderMaxPro" />
           </div>
           <div className="price-box" data-aos="fade-left">
             <p className="price-old">De R$ 897,90</p>
@@ -148,26 +149,7 @@ export default function Home() {
         <h2 className="section-title" data-aos="fade-up">Fale com a gente</h2>
         <p className="section-subtitle" data-aos="fade-up">Dúvidas sobre o software? Envie uma mensagem.</p>
         <div className="contact-form" data-aos="fade-up" data-aos-delay="100">
-          <form id="contactForm">
-            <div style={{ display: "none" }} aria-hidden="true">
-              <input type="text" name="url" tabIndex={-1} autoComplete="off" />
-            </div>
-            <div className="form-group">
-              <input type="text" name="nome" placeholder="Seu nome" required />
-            </div>
-            <div className="form-group">
-              <input type="email" name="email" placeholder="E-mail" required />
-            </div>
-            <div className="form-group">
-              <input type="tel" name="whatsapp" placeholder="WhatsApp" />
-            </div>
-            <div className="form-group">
-              <textarea name="mensagem" placeholder="Sua mensagem"></textarea>
-            </div>
-            <button type="submit" className="btn btn-primary" style={{ width: "100%", justifyContent: "center" }}>
-              Enviar
-            </button>
-          </form>
+          <ContactForm />
         </div>
       </section>
 
