@@ -47,8 +47,8 @@ export default function Header() {
             </a>
           </li>
           <li>
-            <a href="#depoimentos" onClick={closeMenu}>
-              Depoimentos
+            <a href="#conheca" onClick={closeMenu}>
+              Conheça o sistema
             </a>
           </li>
           <li>

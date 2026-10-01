@@ -120,29 +120,60 @@ export default function Home() {
         </p>
       </section>
 
-      <section id="depoimentos" className="testimonials">
-        <h2 className="section-title" data-aos="fade-up">Quem usa, aprova</h2>
-        <p className="section-subtitle" data-aos="fade-up">Veja o que nossos clientes estão dizendo.</p>
-        <div className="testimonials-grid">
-          <div className="testimonial-card" data-aos="flip-left">
-            <img src="https://i.pravatar.cc/150?img=11" alt="João" className="testimonial-avatar" />
-            <p className="testimonial-text">"Economizei horas com os cálculos fiscais. Finalmente não erro mais DARF."</p>
-            <p className="testimonial-name">João M.</p>
-            <p className="testimonial-role">Day Trader há 3 anos</p>
-          </div>
-          <div className="testimonial-card" data-aos="flip-left" data-aos-delay="150">
-            <img src="https://i.pravatar.cc/150?img=28" alt="Fernanda" className="testimonial-avatar" />
-            <p className="testimonial-text">"Visual limpo e rápido, perfeito para o dia a dia do pregão."</p>
-            <p className="testimonial-name">Fernanda S.</p>
-            <p className="testimonial-role">Day trader de índice</p>
-          </div>
-          <div className="testimonial-card" data-aos="flip-left" data-aos-delay="300">
-            <img src="https://i.pravatar.cc/150?img=53" alt="Ricardo" className="testimonial-avatar" />
-            <p className="testimonial-text">"Métricas detalhadas melhoraram minha consistência."</p>
-            <p className="testimonial-name">Ricardo L.</p>
-            <p className="testimonial-role">Day Trader de dólar</p>
-          </div>
+      <section id="conheca" className="testimonials">
+            <h2 className="section-title" data-aos="fade-up">
+        Conheça o TraderMaxPro
+    </h2>
+
+    <p className="section-subtitle" data-aos="fade-up">
+        Um sistema desenvolvido para simplificar o controle das suas operações de Day Trade.
+    </p>
+
+    <div className="testimonials-grid">
+
+        <div className="testimonial-card" data-aos="flip-left">
+            <i className="ph ph-test-tube feature-icon"></i>
+
+            <h3>Teste antes de comprar</h3>
+
+            <p className="testimonial-text">
+                Conheça o sistema na prática através da versão demonstrativa
+                e explore seus principais recursos antes de adquirir a licença.
+            </p>
         </div>
+
+
+        <div className="testimonial-card"
+             data-aos="flip-left"
+             data-aos-delay="150">
+
+            <i className="ph ph-chart-line-up feature-icon"></i>
+
+            <h3>Desenvolvimento contínuo</h3>
+
+            <p className="testimonial-text">
+                O TraderMaxPro está em evolução e busca oferecer recursos
+                cada vez mais úteis para o controle, análise e acompanhamento
+                das operações.
+            </p>
+        </div>
+
+
+        <div className="testimonial-card"
+             data-aos="flip-left"
+             data-aos-delay="300">
+
+            <i className="ph ph-headset feature-icon"></i>
+
+            <h3>Suporte direto</h3>
+
+            <p className="testimonial-text">
+                Tenha contato direto para esclarecer dúvidas sobre o sistema,
+                instalação e utilização dos recursos disponíveis.
+            </p>
+        </div>
+
+    </div>
       </section>
 
       <section id="contato" className="contact">
