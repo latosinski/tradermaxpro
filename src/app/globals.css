@@ -100,37 +100,6 @@ header .logo {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
-
-/* Botão menu mobile */
-.menu-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-}
-
-.menu-toggle span {
-    width: 26px;
-    height: 2px;
-    background-color: #ffffff;
-    transition: all 0.3s;
-}
-
-.menu-toggle.active span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-}
-
-.menu-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.menu-toggle.active span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-}
-
 nav ul {
     display: flex;
     list-style: none;
@@ -144,6 +113,18 @@ nav ul li a {
 }
 nav ul li a:hover {
     color: var(--verde);
+}
+
+/* Botão hambúrguer (escondido por padrão) */
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.9rem;
+    cursor: pointer;
+    padding: 6px;
+    line-height: 1;
 }
 
 /* Hero */
@@ -503,35 +484,77 @@ footer a {
     margin: 0 8px;
 }
 
-@media (max-width: 900px) {
+/* ======================
+   MEDIA QUERIES
+   ====================== */
+
+@media (max-width: 1200px) {
+    header {
+        padding: 14px 24px;
+    }
+    header .logo {
+        font-size: 1.6rem;
+    }
+    nav ul {
+        gap: 20px;
+    }
+    nav ul li a {
+        font-size: 0.95rem;
+    }
+    .header-cta {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    .hero {
+        padding: 70px 30px;
+    }
+    .hero-text h1 {
+        font-size: 2.6rem;
+    }
+}
+
+/* =========================================
+   Até 1024px: ATIVA O MENU HAMBÚRGUER
+   ========================================= */
+@media (max-width: 1024px) {
+    header {
+        flex-wrap: wrap;
+        padding: 14px 20px;
+    }
+
     .menu-toggle {
-        display: flex;
-    }
-
-    header nav {
-        display: none;
-        width: 100%;
-        order: 3;
-    }
-
-    header nav.open {
         display: block;
+        margin-left: auto;
     }
 
-    header nav ul {
+    .header-cta {
+        display: none;
+    }
+
+    nav {
+        flex-basis: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+    }
+    nav.active {
+        max-height: 600px;
+    }
+    nav ul {
         flex-direction: column;
         gap: 0;
-        margin-top: 16px;
+        padding: 8px 0;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        margin-top: 12px;
     }
-
-    header nav ul li {
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    nav ul li {
+        width: 100%;
     }
-
-    header nav ul li a {
+    nav ul li a {
         display: block;
-        padding: 14px 0;
-        font-size: 16px;
+        padding: 12px 4px;
+        font-size: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
     .hero {
@@ -541,16 +564,159 @@ footer a {
     }
     .hero-text {
         max-width: 100%;
+        margin-bottom: 40px;
     }
     .hero-image {
         max-width: 80%;
     }
-    header {
-        flex-wrap: wrap;
-        gap: 16px;
-        padding: 16px 20px;
+    .hero-text h1 {
+        font-size: 2.4rem;
     }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .section-title {
+        font-size: 1.9rem;
+    }
+}
+
+/* Até 900px */
+@media (max-width: 900px) {
     .hero-text h1 {
         font-size: 2.2rem;
+    }
+    .hero-text p {
+        font-size: 1.05rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+    }
+    .demo-container {
+        gap: 30px;
+    }
+    .section-title {
+        font-size: 1.8rem;
+    }
+    .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 40px;
+    }
+}
+
+/* Smartphones (até 768px) */
+@media (max-width: 768px) {
+    header .logo {
+        font-size: 1.5rem;
+    }
+
+    .hero {
+        padding: 50px 16px;
+    }
+    .hero-text h1 {
+        font-size: 1.9rem;
+    }
+    .hero-text p {
+        font-size: 1rem;
+        margin-bottom: 24px;
+    }
+    .hero-buttons {
+        justify-content: center;
+    }
+    .hero-image {
+        max-width: 100%;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+    .section-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 30px;
+    }
+
+    .features,
+    .overview,
+    .testimonials,
+    .demo-price,
+    .contact {
+        padding: 60px 0;
+    }
+    .features-grid {
+        padding: 0 16px;
+        gap: 20px;
+    }
+
+    .overview-card,
+    .testimonial-card {
+        width: 100%;
+        max-width: 340px;
+    }
+
+    .demo-container {
+        padding: 0 16px;
+        gap: 24px;
+    }
+    .price-box {
+        padding: 32px 22px;
+    }
+    .price-box .price-tag {
+        font-size: 2.4rem;
+    }
+
+    .contact-form {
+        padding: 28px 20px;
+    }
+
+    .cta-final {
+        padding: 70px 20px;
+    }
+    .cta-final h2 {
+        font-size: 1.8rem;
+    }
+    .cta-final p {
+        font-size: 1rem;
+    }
+
+    .whatsapp-float {
+        bottom: 20px;
+        right: 20px;
+        width: 54px;
+        height: 54px;
+        font-size: 1.7rem;
+    }
+
+    .wave-divider {
+        height: 40px;
+    }
+    .wave-divider::before {
+        height: 40px;
+        top: -28px;
+    }
+}
+
+/* Smartphones pequenos (até 480px) */
+@media (max-width: 480px) {
+    header .logo {
+        font-size: 1.35rem;
+    }
+    .menu-toggle {
+        font-size: 1.6rem;
+    }
+
+    .hero-text h1 {
+        font-size: 1.65rem;
+    }
+    .section-title {
+        font-size: 1.4rem;
+    }
+    .btn {
+        padding: 11px 22px;
+        font-size: 0.9rem;
+    }
+    .price-box .price-tag {
+        font-size: 2.1rem;
     }
 }

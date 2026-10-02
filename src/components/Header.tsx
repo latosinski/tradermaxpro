@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { List, X } from "@phosphor-icons/react";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
@@ -13,23 +15,32 @@ export default function Header() {
     setMenuOpen(false);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1024 && menuOpen) {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [menuOpen]);
+
   return (
     <header id="top">
       <div className="logo">TraderMaxPro</div>
 
       <button
         type="button"
-        className={`menu-toggle ${menuOpen ? "active" : ""}`}
+        className="menu-toggle"
         onClick={toggleMenu}
         aria-label="Abrir menu"
         aria-expanded={menuOpen}
       >
-        <span></span>
-        <span></span>
-        <span></span>
+        {menuOpen ? <X size={28} /> : <List size={28} />}
       </button>
 
-      <nav className={menuOpen ? "open" : ""}>
+      <nav ref={navRef} className={menuOpen ? "active" : ""}>
         <ul>
           <li>
             <a href="#top" onClick={closeMenu}>
@@ -73,7 +84,7 @@ export default function Header() {
         </ul>
       </nav>
 
-      <a href="#preco" className="btn btn-primary" onClick={closeMenu}>
+      <a href="#preco" className="btn btn-primary header-cta" onClick={closeMenu}>
         Quero Comprar
       </a>
     </header>
