@@ -3,11 +3,11 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
-  title: "TraderMaxPro - Software para Controle de Day Trade, DARF, IRRF e Performance do Trader",
+  title: "Planix TraderMax - Software para Controle de Day Trade, DARF, IRRF e Performance do Trader",
   description:
     "Software completo com cálculos automáticos de IRRF/DARF, com compensação de imposto, curva de capital e métricas de performance. Licença vitalícia, instalação rápida.",
   keywords:
-    "day trade, software day trade, controle day trade, darf day trade, irrf day trade, diário de trader, gestão de operações, tradermaxpro",
+    "day trade, software day trade, controle day trade, darf day trade, irrf day trade, diário de trader, gestão de operações, planix tradermax",
 };
 
 export default function RootLayout({

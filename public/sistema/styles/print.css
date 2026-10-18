@@ -1,0 +1,174 @@
+/* ═══════════════════════════════════════════════════════════════
+   Planix TraderMax · styles/print.css
+   ───────────────────────────────────────────────────────────────
+   Regras exclusivas para impressão e geração de PDF.
+
+   Estratégia:
+   - Esconde a "chrome" da aplicação (sidebar, header-right,
+     filtros, coluna de ações, paginação, diálogo de confirmação).
+   - Simplifica o header para só título + breadcrumb.
+   - Remove sombras e usa bordas sólidas para impressão limpa.
+   - Bloqueia quebra de página dentro de painéis e cartões.
+   - Ajusta tamanhos de fonte para A4 retrato.
+
+   Este arquivo só é aplicado quando o navegador está em modo de
+   impressão (Ctrl+P / window.print()). Fora disso, é inerte.
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+
+    /* ─── Configuração da página ─────────────────────────── */
+    @page {
+        margin: 1.2cm;
+    }
+
+    /* ─── Base ───────────────────────────────────────────── */
+    html, body {
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 11pt !important;
+    }
+
+    /* ─── Esconde a chrome da aplicação ──────────────────── */
+    .sidebar,
+    .sidebar-overlay,
+    .menu-toggle,
+    .header-right,
+    .filter-bar,
+    .cell-actions,
+    .confirm-overlay {
+        display: none !important;
+    }
+
+    /* ─── Header simplificado ────────────────────────────── */
+    .header {
+        position: static !important;
+        height: auto !important;
+        padding: 0 0 0.5rem 0 !important;
+        margin-bottom: 1rem !important;
+        background: transparent !important;
+        border-bottom: 2px solid #333 !important;
+    }
+
+    .page-title {
+        font-size: 14pt !important;
+        font-weight: 700 !important;
+    }
+
+    .breadcrumb {
+        font-size: 9pt !important;
+        color: #555 !important;
+    }
+
+    /* ─── Wrapper ────────────────────────────────────────── */
+    .main-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    .content {
+        padding: 0 !important;
+        overflow: visible !important;
+        display: block !important;
+    }
+
+    /* ─── Cards e painéis ────────────────────────────────── */
+    .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+        gap: 0.5rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .stat-card,
+    .panel {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        page-break-inside: avoid;
+    }
+
+    .panel {
+        margin-bottom: 1rem;
+    }
+
+    .panel-header {
+        page-break-after: avoid;
+        padding: 0.65rem 0.85rem !important;
+    }
+
+    .panel-body {
+        padding: 0.85rem !important;
+    }
+
+    .panel-title {
+        font-size: 11pt !important;
+    }
+
+    /* ─── Gráficos: um por linha ─────────────────────────── */
+    .charts-row {
+        display: block !important;
+        page-break-inside: avoid;
+    }
+
+    .charts-row .panel {
+        margin-bottom: 0.75rem;
+    }
+
+    .panel-body canvas {
+        max-height: 240px !important;
+    }
+
+    /* ─── Esconde formulários inline (Aportes / Saques) ──── */
+    .panel form {
+        display: none !important;
+    }
+
+    /* ─── Rodapé da tabela ───────────────────────────────── */
+    .table-footer {
+        border-top: 1px solid #ccc !important;
+        padding: 0.5rem 0.85rem !important;
+    }
+
+    .table-footer .pagination {
+        display: none !important;
+    }
+
+    /* ─── Tabelas ────────────────────────────────────────── */
+    .data-table {
+        font-size: 9.5pt !important;
+    }
+
+    .data-table th {
+        background: #f0f0f0 !important;
+        color: #000 !important;
+        padding: 5px 7px !important;
+        border-bottom: 1px solid #999 !important;
+    }
+
+    .data-table td {
+        padding: 5px 7px !important;
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    .data-table tr:hover td {
+        background: transparent !important;
+    }
+
+    /* ─── Badges impressos com cor de fundo suave ───────── */
+    .badge,
+    .status-badge {
+        border: 1px solid #999 !important;
+        background: #f7f7f7 !important;
+        color: #000 !important;
+    }
+
+    /* ─── Links sem cor azul e sem sublinhado ───────────── */
+    a {
+        color: #000 !important;
+        text-decoration: none !important;
+    }
+
+    /* ─── Esconde placeholders de view vazios ───────────── */
+    .table-empty {
+        display: none !important;
+    }
+}

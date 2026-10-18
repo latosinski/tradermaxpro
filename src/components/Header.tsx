@@ -28,7 +28,10 @@ export default function Header() {
 
   return (
     <header id="top">
-      <div className="logo">TraderMaxPro</div>
+      <div className="logo">
+        <img src="/img/logo-planix.png" alt="Planix TraderMax" className="logo-img" />
+        Planix TraderMax
+      </div>
 
       <button
         type="button"
@@ -69,16 +72,11 @@ export default function Header() {
           </li>
           <li>
             <a
-              href="/documentacao/tradermaxpro.pdf"
+              href="/documentacao/manual.pdf"
               target="_blank"
               onClick={closeMenu}
             >
               Documentação
-            </a>
-          </li>
-          <li>
-            <a href="/restrito" onClick={closeMenu}>
-              Área Restrita
             </a>
           </li>
         </ul>

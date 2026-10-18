@@ -11,6 +11,8 @@ import {
   CheckCircle,
   WhatsappLogo,
   DownloadSimple,
+  TestTube,
+  Headset,
 } from "@/components/Icons";
 
 export default function Home() {
@@ -24,13 +26,13 @@ export default function Home() {
           <p>Software completo com cálculos automáticos de IRRF/DARF, com compensação de imposto, curva de capital e métricas de performance. Licença vitalícia, instalação rápida.</p>
           <div className="hero-buttons">
             <a href="#preco" className="btn btn-primary">Comprar Agora</a>
-            <a href="/sistema/tradermaxpro.html" className="btn btn-outline" target="_blank">
+            <a href="/sistema/index.html" className="btn btn-outline" target="_blank">
               <DownloadSimple size={20} /> Testar Grátis
             </a>
           </div>
         </div>
         <div className="hero-image" data-aos="fade-left" data-aos-delay="200">
-          <img src="/img/tela.png" alt="Tela do TraderMaxPro" />
+          <img src="/img/tela.png" alt="Tela do Planix TraderMax" />
         </div>
       </section>
 
@@ -41,22 +43,22 @@ export default function Home() {
         <p className="section-subtitle" data-aos="fade-up">Ferramentas que realmente fazem diferença nos resultados.</p>
         <div className="features-grid">
           <div className="feature-card" data-aos="zoom-in">
-            <Calculator size={44} color="#00e676" weight="regular" className="feature-icon" />
+            <Calculator size={44} color="#7FB2E5" weight="regular" className="feature-icon" />
             <h3>Cálculos Tributários</h3>
             <p>IRRF e DARF automáticos com compensação de perdas.</p>
           </div>
           <div className="feature-card" data-aos="zoom-in" data-aos-delay="100">
-            <ChartLineUp size={44} color="#00e676" weight="regular" className="feature-icon" />
+            <ChartLineUp size={44} color="#7FB2E5" weight="regular" className="feature-icon" />
             <h3>Curva de Capital</h3>
             <p>Acompanhe a evolução do seu patrimônio em tempo real.</p>
           </div>
           <div className="feature-card" data-aos="zoom-in" data-aos-delay="200">
-            <Notepad size={44} color="#00e676" weight="regular" className="feature-icon" />
+            <Notepad size={44} color="#7FB2E5" weight="regular" className="feature-icon" />
             <h3>Gestão de Operações</h3>
             <p>Cadastre, edite e analise cada operação com detalhes.</p>
           </div>
           <div className="feature-card" data-aos="zoom-in" data-aos-delay="300">
-            <Export size={44} color="#00e676" weight="regular" className="feature-icon" />
+            <Export size={44} color="#7FB2E5" weight="regular" className="feature-icon" />
             <h3>Exportação de Dados</h3>
             <p>Relatórios em Excel CSV ou PDF.</p>
           </div>
@@ -68,17 +70,17 @@ export default function Home() {
         <p className="section-subtitle" data-aos="fade-up">Indicadores e métricas que realmente importam.</p>
         <div className="cards-container">
           <div className="overview-card" data-aos="fade-up">
-            <Gauge size={32} color="#00e676" weight="regular" />
+            <Gauge size={32} color="#7FB2E5" weight="regular" />
             <h3>Dashboard Financeiro</h3>
             <p>Indicadores, saldo e rentabilidade separados mês à mês.</p>
           </div>
           <div className="overview-card" data-aos="fade-up" data-aos-delay="150">
-            <Target size={32} color="#00e676" weight="regular" />
+            <Target size={32} color="#7FB2E5" weight="regular" />
             <h3>Centro de Performance</h3>
             <p>Taxa de acerto, payoff, drawdown e muito mais.</p>
           </div>
           <div className="overview-card" data-aos="fade-up" data-aos-delay="300">
-            <Wallet size={32} color="#00e676" weight="regular" />
+            <Wallet size={32} color="#7FB2E5" weight="regular" />
             <h3>Controle de Capital</h3>
             <p>Aportes, saques e projeção de crescimento patrimonial.</p>
           </div>
@@ -90,17 +92,17 @@ export default function Home() {
         <p className="section-subtitle" data-aos="fade-up">Imagem real do software. Licença vitalícia com atualizações gratuitas.</p>
         <div className="demo-container">
           <div className="demo-screenshot" data-aos="fade-right">
-            <img src="/img/performance.png" alt="Tela do TraderMaxPro" />
+            <img src="/img/performance.png" alt="Tela do Planix TraderMax" />
           </div>
           <div className="price-box" data-aos="fade-left">
             <p className="price-old">De R$ 897,90</p>
-            <div className="price-tag">R$ 129,90</div>
+            <div className="price-tag">R$ 147,90</div>
             <p style={{ marginBottom: "16px" }}>Pagamento via PIX</p>
             <ul>
-              <li><CheckCircle size={20} color="#00e676" weight="fill" /> Licença vitalícia</li>
-              <li><CheckCircle size={20} color="#00e676" weight="fill" /> Atualizações gratuitas</li>
-              <li><CheckCircle size={20} color="#00e676" weight="fill" /> Suporte via WhatsApp</li>
-              <li><CheckCircle size={20} color="#00e676" weight="fill" /> Instalação em 1 PC</li>
+              <li><CheckCircle size={20} color="#7FB2E5" weight="fill" /> Licença vitalícia</li>
+              <li><CheckCircle size={20} color="#7FB2E5" weight="fill" /> Atualizações gratuitas</li>
+              <li><CheckCircle size={20} color="#7FB2E5" weight="fill" /> Suporte via WhatsApp</li>
+              <li><CheckCircle size={20} color="#7FB2E5" weight="fill" /> Instalação em 1 PC</li>
             </ul>
             <a
               href="https://wa.me/5551982127790?text=Olá! Tenho interesse no TraderMaxPro, quero comprar."
@@ -110,7 +112,7 @@ export default function Home() {
             >
               <WhatsappLogo size={20} weight="fill" /> Comprar pelo WhatsApp
             </a>
-            <a href="/sistema/tradermaxpro.html" className="demo-link" target="_blank">
+            <a href="/sistema/index.html" className="demo-link" target="_blank">
               ou teste antes de comprar (versão demo)
             </a>
           </div>
@@ -121,59 +123,41 @@ export default function Home() {
       </section>
 
       <section id="conheca" className="testimonials">
-            <h2 className="section-title" data-aos="fade-up">
-        Conheça o TraderMaxPro
-    </h2>
-
-    <p className="section-subtitle" data-aos="fade-up">
-        Um sistema desenvolvido para simplificar o controle das suas operações de Day Trade.
-    </p>
-
-    <div className="testimonials-grid">
-
-        <div className="testimonial-card" data-aos="flip-left">
-            <i className="ph ph-test-tube feature-icon"></i>
-
+        <h2 className="section-title" data-aos="fade-up">
+          Conheça o Planix TraderMax
+        </h2>
+        <p className="section-subtitle" data-aos="fade-up">
+          Um sistema desenvolvido para simplificar o controle das suas operações de Day Trade.
+        </p>
+        <div className="testimonials-grid">
+          <div className="testimonial-card" data-aos="flip-left">
+            <TestTube size={44} color="#7FB2E5" weight="regular" className="feature-icon" />
             <h3>Teste antes de comprar</h3>
-
             <p className="testimonial-text">
-                Conheça o sistema na prática através da versão demonstrativa
-                e explore seus principais recursos antes de adquirir a licença.
+              Conheça o sistema na prática através da versão demonstrativa
+              e explore seus principais recursos antes de adquirir a licença.
             </p>
-        </div>
+          </div>
 
-
-        <div className="testimonial-card"
-             data-aos="flip-left"
-             data-aos-delay="150">
-
-            <i className="ph ph-chart-line-up feature-icon"></i>
-
+          <div className="testimonial-card" data-aos="flip-left" data-aos-delay="150">
+            <ChartLineUp size={44} color="#7FB2E5" weight="regular" className="feature-icon" />
             <h3>Desenvolvimento contínuo</h3>
-
             <p className="testimonial-text">
-                O TraderMaxPro está em evolução e busca oferecer recursos
-                cada vez mais úteis para o controle, análise e acompanhamento
-                das operações.
+              O Planix TraderMax está em evolução e busca oferecer recursos
+              cada vez mais úteis para o controle, análise e acompanhamento
+              das operações.
             </p>
-        </div>
+          </div>
 
-
-        <div className="testimonial-card"
-             data-aos="flip-left"
-             data-aos-delay="300">
-
-            <i className="ph ph-headset feature-icon"></i>
-
+          <div className="testimonial-card" data-aos="flip-left" data-aos-delay="300">
+            <Headset size={44} color="#7FB2E5" weight="regular" className="feature-icon" />
             <h3>Suporte direto</h3>
-
             <p className="testimonial-text">
-                Tenha contato direto para esclarecer dúvidas sobre o sistema,
-                instalação e utilização dos recursos disponíveis.
+              Tenha contato direto para esclarecer dúvidas sobre o sistema,
+              instalação e utilização dos recursos disponíveis.
             </p>
+          </div>
         </div>
-
-    </div>
       </section>
 
       <section id="contato" className="contact">
@@ -191,11 +175,11 @@ export default function Home() {
       </section>
 
       <footer>
-        <p>© 2026 TraderMaxPro | <a href="/documentacao/tradermaxpro.pdf" target="_blank">Documentação</a></p>
+        <p>© 2026 Planix TraderMax | <a href="/documentacao/manual.pdf" target="_blank">Documentação</a></p>
       </footer>
 
       <a
-        href="https://wa.me/5551982127790?text=Olá! Quero saber mais sobre o TraderMaxPro."
+        href="https://wa.me/5551982127790?text=Olá! Quero saber mais sobre o Planix TraderMax."
         target="_blank"
         className="whatsapp-float"
         aria-label="Comprar via WhatsApp"

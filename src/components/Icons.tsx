@@ -11,6 +11,8 @@ import {
   CheckCircle,
   WhatsappLogo,
   DownloadSimple,
+  TestTube,
+  Headset,
 } from "@phosphor-icons/react";
 
 export {
@@ -24,4 +26,6 @@ export {
   CheckCircle,
   WhatsappLogo,
   DownloadSimple,
+  TestTube,
+  Headset,
 };

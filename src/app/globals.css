@@ -5,24 +5,25 @@
 }
 
 :root {
-    --azul-escuro: #0b1a2b;
-    --azul-medio: #1e3a5f;
-    --verde: #00e676;
-    --verde-hover: #00c853;
-    --cinza-claro: #f4f6f8;
-    --texto: #1e293b;
-    --texto-claro: #475569;
+    --azul-escuro: #0B2A4A;
+    --azul-medio: #2563A8;
+    --verde: #7FB2E5;
+    --verde-hover: #5B9BD5;
+    --cinza-claro: #E8F1F9;
+    --texto: #0B2A4A;
+    --texto-claro: #4A6B8A;
     --branco: #ffffff;
-    --shadow-sm: 0 4px 6px rgba(0,0,0,0.05);
-    --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
-    --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+    --shadow-sm: 0 4px 6px rgba(11, 42, 74, 0.05);
+    --shadow-md: 0 8px 24px rgba(11, 42, 74, 0.08);
+    --shadow-lg: 0 12px 32px rgba(11, 42, 74, 0.12);
     --radius: 16px;
+    --gradient: linear-gradient(135deg, #7FB2E5, #0B2A4A);
 }
 
 body {
     font-family: 'Inter', sans-serif;
     color: var(--texto);
-    background-color: #f8fafc;
+    background-color: #F5F9FC;
     line-height: 1.6;
     scroll-behavior: smooth;
 }
@@ -42,14 +43,14 @@ body {
 }
 
 .btn-primary {
-    background: var(--verde);
-    color: var(--azul-escuro);
-    box-shadow: 0 4px 12px rgba(0,230,118,0.3);
+    background: var(--gradient);
+    color: var(--branco);
+    box-shadow: 0 4px 12px rgba(127, 178, 229, 0.35);
 }
 .btn-primary:hover {
-    background: var(--verde-hover);
+    background: linear-gradient(135deg, #5B9BD5, #0B2A4A);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0,200,83,0.4);
+    box-shadow: 0 6px 16px rgba(127, 178, 229, 0.45);
 }
 
 .btn-outline {
@@ -79,7 +80,7 @@ body {
 
 /* Header */
 header {
-    background: rgba(11, 26, 43, 0.85);
+    background: rgba(11, 42, 74, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -93,12 +94,19 @@ header {
     z-index: 1000;
 }
 header .logo {
-    font-size: 1.8rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #fff, #00e676);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.logo-img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    border-radius: 8px;
+    flex-shrink: 0;
 }
 nav ul {
     display: flex;
@@ -133,7 +141,7 @@ nav ul li a:hover {
     align-items: center;
     justify-content: space-between;
     padding: 80px 40px;
-    background: linear-gradient(135deg, #0b1a2b 0%, #1a3650 100%);
+    background: linear-gradient(135deg, #0B2A4A 0%, #2563A8 100%);
     color: #fff;
     position: relative;
     overflow: hidden;
@@ -145,7 +153,7 @@ nav ul li a:hover {
     right: -10%;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(0,230,118,0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(127, 178, 229, 0.18) 0%, transparent 70%);
     border-radius: 50%;
     z-index: 0;
 }
@@ -199,7 +207,7 @@ nav ul li a:hover {
     left: 0;
     width: 100%;
     height: 60px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%230b1a2b'/%3E%3C/svg%3E") no-repeat;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%230B2A4A'/%3E%3C/svg%3E") no-repeat;
     background-size: cover;
 }
 
@@ -275,7 +283,7 @@ nav ul li a:hover {
 /* Testimonials */
 .testimonials {
     padding: 80px 0;
-    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    background: linear-gradient(135deg, #E8F1F9 0%, #D4E7F7 100%);
 }
 .testimonials-grid {
     display: flex;
@@ -434,7 +442,7 @@ nav ul li a:hover {
 /* CTA Final */
 .cta-final {
     padding: 100px 0;
-    background: var(--azul-escuro);
+    background: var(--gradient);
     color: #fff;
     text-align: center;
 }
@@ -445,7 +453,15 @@ nav ul li a:hover {
 .cta-final p {
     margin-bottom: 32px;
     font-size: 1.1rem;
-    opacity: 0.9;
+    opacity: 0.95;
+}
+.cta-final .btn-primary {
+    background: var(--branco);
+    color: var(--azul-escuro);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.cta-final .btn-primary:hover {
+    background: #F5F9FC;
 }
 
 /* WhatsApp Float */
@@ -472,7 +488,7 @@ nav ul li a:hover {
 }
 
 footer {
-    background: #0f172a;
+    background: var(--azul-escuro);
     color: #94a3b8;
     text-align: center;
     padding: 30px;
@@ -493,7 +509,11 @@ footer a {
         padding: 14px 24px;
     }
     header .logo {
-        font-size: 1.6rem;
+        font-size: 1.25rem;
+    }
+    .logo-img {
+        width: 32px;
+        height: 32px;
     }
     nav ul {
         gap: 20px;
@@ -513,9 +533,6 @@ footer a {
     }
 }
 
-/* =========================================
-   Até 1024px: ATIVA O MENU HAMBÚRGUER
-   ========================================= */
 @media (max-width: 1024px) {
     header {
         flex-wrap: wrap;
@@ -581,8 +598,14 @@ footer a {
     }
 }
 
-/* Até 900px */
 @media (max-width: 900px) {
+    header .logo {
+        font-size: 1.15rem;
+    }
+    .logo-img {
+        width: 30px;
+        height: 30px;
+    }
     .hero-text h1 {
         font-size: 2.2rem;
     }
@@ -606,10 +629,13 @@ footer a {
     }
 }
 
-/* Smartphones (até 768px) */
 @media (max-width: 768px) {
     header .logo {
-        font-size: 1.5rem;
+        font-size: 1.05rem;
+    }
+    .logo-img {
+        width: 28px;
+        height: 28px;
     }
 
     .hero {
@@ -697,10 +723,13 @@ footer a {
     }
 }
 
-/* Smartphones pequenos (até 480px) */
 @media (max-width: 480px) {
     header .logo {
-        font-size: 1.35rem;
+        font-size: 0.95rem;
+    }
+    .logo-img {
+        width: 26px;
+        height: 26px;
     }
     .menu-toggle {
         font-size: 1.6rem;
