@@ -96,7 +96,7 @@ export default function Home() {
           </div>
           <div className="price-box" data-aos="fade-left">
             <p className="price-old">De R$ 897,90</p>
-            <div className="price-tag">R$ 147,90</div>
+            <div className="price-tag">R$ 147,80</div>
             <p style={{ marginBottom: "16px" }}>Pagamento via PIX</p>
             <ul>
               <li><CheckCircle size={20} color="#7FB2E5" weight="fill" /> Licença vitalícia</li>

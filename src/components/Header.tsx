@@ -28,10 +28,14 @@ export default function Header() {
 
   return (
     <header id="top">
-      <div className="logo">
-        <img src="/img/logo-planix.png" alt="Planix TraderMax" className="logo-img" />
+      <a href="#top" className="logo" onClick={closeMenu}>
+        <img
+          src="/img/logo-planix.png"
+          alt="Planix TraderMax"
+          className="logo-img"
+        />
         Planix TraderMax
-      </div>
+      </a>
 
       <button
         type="button"

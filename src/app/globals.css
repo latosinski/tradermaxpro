@@ -100,6 +100,14 @@ header .logo {
     display: flex;
     align-items: center;
     gap: 0.6rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+header .logo:hover,
+header .logo:focus,
+header .logo:visited {
+    text-decoration: none;
+    color: #fff;
 }
 .logo-img {
     width: 36px;
