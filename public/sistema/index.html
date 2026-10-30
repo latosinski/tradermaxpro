@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="styles/print.css" media="print">
 </head>
 <body>
+      <!-- Banner de demonstração -->
+  <div class="demo-banner">
+    <i class="fas fa-flask"></i>
+    <span><strong>Demonstração Web</strong> — os dados ficam salvos apenas neste navegador. Nada é enviado a servidores.</span>
+  </div>
 
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
@@ -85,13 +90,6 @@
     </aside>
 
     <div class="main-wrapper" id="mainWrapper">
-        <!-- 🛡️ Banner de Demonstração Web (fixo no topo) -->
-            <div class="demo-banner" role="status" aria-live="polite">
-                <i class="fas fa-shield-alt"></i>
-                <span class="demo-banner-text">
-                    <strong>Demonstração Web</strong> — os dados ficam salvos apenas neste navegador. Nada é enviado a servidores.
-                </span>
-            </div>
 
         <header class="header">
             <div class="header-left">
@@ -152,11 +150,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="prefAnoInicio">Ano Inicial</label>
-                        <input type="text" inputmode="numeric" id="prefAnoInicio" required>
+                        <input type="number" id="prefAnoInicio" min="2000" max="2100" step="1" required>
                     </div>
                     <div class="form-group">
                         <label for="prefAnoFim">Ano Final</label>
-                        <input type="text" inputmode="numeric" id="prefAnoFim" required>
+                        <input type="number" id="prefAnoFim" min="2000" max="2100" step="1" required>
                     </div>
                 </div>
                 <div class="form-actions">
