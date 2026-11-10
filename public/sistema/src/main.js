@@ -18,6 +18,7 @@
                 case P.constants.VIEWS.APORTES:     P.aportes.render(container);     break;
                 case P.constants.VIEWS.SAQUES:      P.saques.render(container);      break;
                 case P.constants.VIEWS.BACKUP:      P.backupView.render(container);  break;
+                case P.constants.VIEWS.REPORTS:     P.reportsView.render(container); break;
                 default:
                     container.innerHTML =
                         '<div class="panel"><div class="panel-body">' +
@@ -50,8 +51,6 @@
             P.refresh.init();
             P.aportes.init();
             P.saques.init();
-            P.exporter.csv.init();
-            P.exporter.pdf.init();
             P.exporter.backup.init();
 
             P.state.on(P.constants.EVENTS.STATE_CHANGED, renderCurrentView);

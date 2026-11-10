@@ -50,6 +50,8 @@
             main = 'Performance ' + year;
         } else if (view === constants().VIEWS.BACKUP) {
             main = 'Backup';
+        } else if (view === constants().VIEWS.REPORTS) {
+            main = 'Relatórios';
         }
 
         if (title) title.textContent = main;

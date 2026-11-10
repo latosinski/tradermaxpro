@@ -42,7 +42,8 @@
         APORTES:     'aportes',
         SAQUES:      'saques',
         PERFORMANCE: 'performance',
-        BACKUP:      'backup'
+        BACKUP:      'backup',
+        REPORTS:     'reports'
     };
 
     const EVENTS = {

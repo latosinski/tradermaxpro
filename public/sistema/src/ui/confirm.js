@@ -3,40 +3,9 @@
    ───────────────────────────────────────────────────────────────
    Diálogo de confirmação reutilizável.
 
-   Substitui o nativo `window.confirm()` por um modal estilizado,
-   com suporte a teclado e Promise.
-
-   Uso:
-     Planis.confirm.ask({
-       title: 'Excluir operação?',
-       message: 'Esta ação não pode ser desfeita.',
-       confirmText: 'Excluir',
-       cancelText: 'Cancelar',
-       variant: 'danger'   // 'danger' | 'warning' | 'info' (default)
-     }).then(function (confirmed) {
-       if (confirmed) { ... }
-     });
-
-   Teclado:
-     - Enter/Space → aciona o botão com foco.
-     - Escape      → cancela.
-     - Tab         → alterna entre os botões (focus trap).
-     - Shift+Tab   → alterna em sentido inverso.
-     - Setas ← ↑   → botão anterior.
-     - Setas → ↓   → botão seguinte.
-     - Navegação por setas é circular (o foco "dá a volta").
-
-   Foco inicial:
-     - Sempre no botão de CONFIRMAR (em todas as variantes).
-     - Isso faz o Enter executar a ação diretamente, que é o
-       comportamento esperado pela maioria dos usuários.
-     - Escape cancela em qualquer estado — saída rápida garantida.
-
-   Comportamento:
-     - Clique no overlay (fora do diálogo) → cancela.
-     - O elemento é criado sob demanda e reaproveitado entre chamadas.
-     - Se já houver um diálogo aberto e outro `ask()` for chamado,
-       o primeiro é resolvido como cancelado antes do segundo abrir.
+   Correção aplicada: foco no botão de confirmação é SÍNCRONO
+   (sem rAF) e o handler de Enter tem fallback caso o foco não
+   tenha migrado para um botão do modal (Enter duplo).
    ═══════════════════════════════════════════════════════════════ */
 (function (global) {
     'use strict';
@@ -45,7 +14,6 @@
     let resolveFn = null;
     let keydownHandler = null;
 
-    /* ─── Construção sob demanda ─────────────────────────────── */
     function ensureElements() {
         if (overlayEl) return overlayEl;
 
@@ -67,9 +35,6 @@
 
         document.body.appendChild(overlayEl);
 
-        /* Clique no overlay (fora do diálogo) = cancelar.
-           Usa mousedown para evitar o caso "start no overlay,
-           release no dialog" disparar cancelamento acidental. */
         overlayEl.addEventListener('mousedown', function (e) {
             if (e.target === overlayEl) close(false);
         });
@@ -84,7 +49,6 @@
         return overlayEl;
     }
 
-    /* ─── Aplicação de variante visual ──────────────────────── */
     function applyVariant(variant) {
         const icon       = overlayEl.querySelector('[data-role="icon"]');
         const iconI      = icon.querySelector('i');
@@ -108,14 +72,12 @@
         }
     }
 
-    /* ─── Lista de botões do diálogo (ordem do DOM) ─────────── */
     function getButtons() {
         return Array.prototype.slice.call(
             overlayEl.querySelectorAll('.confirm-actions button')
         );
     }
 
-    /* ─── Fechar e resolver ──────────────────────────────────── */
     function close(result) {
         if (!overlayEl || !overlayEl.classList.contains('active')) return;
 
@@ -131,7 +93,6 @@
         if (resolve) resolve(result);
     }
 
-    /* ─── Navegação por setas (circular) ────────────────────── */
     function moveFocus(direction) {
         const buttons = getButtons();
         if (buttons.length === 0) return;
@@ -148,7 +109,6 @@
         buttons[idx].focus();
     }
 
-    /* ─── Focus trap para Tab ────────────────────────────────── */
     function trapTab(e) {
         const buttons = getButtons();
         if (buttons.length === 0) return;
@@ -171,24 +131,9 @@
         }
     }
 
-    /* ─── Agendador de foco robusto ─────────────────────────── */
-    /* Duplo rAF garante que o layout esteja pintado antes do
-       focus(). Fallback para setTimeout em ambientes sem rAF. */
-    function scheduleFocus(cb) {
-        if (typeof global.requestAnimationFrame === 'function') {
-            global.requestAnimationFrame(function () {
-                global.requestAnimationFrame(cb);
-            });
-        } else {
-            setTimeout(cb, 50);
-        }
-    }
-
-    /* ─── API pública ────────────────────────────────────────── */
     function ask(options) {
         const opts = options || {};
 
-        /* Fecha diálogo anterior, se houver */
         if (overlayEl && overlayEl.classList.contains('active')) {
             close(false);
         }
@@ -207,22 +152,16 @@
         return new Promise(function (resolve) {
             resolveFn = resolve;
 
-            /* Força reflow para garantir transição de entrada */
             void overlayEl.offsetWidth;
             overlayEl.classList.add('active');
 
-            /* Foco inicial: SEMPRE no botão de confirmar.
-               Isso faz o Enter executar a ação diretamente —
-               comportamento esperado pela maioria dos usuários.
-               Escape cancela em qualquer estado, servindo como
-               saída rápida. */
-            const focusTarget = overlayEl.querySelector('[data-role="confirm"]');
+            /* Foco SÍNCRONO no botão de confirmação.
+               Antes era via duplo rAF (~32ms), o que fazia o
+               primeiro Enter cair enquanto o foco ainda estava
+               no botão de origem (fora do overlay). */
+            const confirmBtn = overlayEl.querySelector('[data-role="confirm"]');
+            try { confirmBtn.focus(); } catch (e) { /* ignora */ }
 
-            scheduleFocus(function () {
-                try { focusTarget.focus(); } catch (e) { /* ignora */ }
-            });
-
-            /* ─── Handler de teclado ────────────────────────── */
             keydownHandler = function (e) {
 
                 if (e.key === 'Escape') {
@@ -237,7 +176,6 @@
                     return;
                 }
 
-                /* Setas direcionais — navegação circular. */
                 if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
                     e.preventDefault();
                     e.stopPropagation();
@@ -251,13 +189,21 @@
                     return;
                 }
 
-                /* Enter/Space — aciona o botão com foco. */
                 if (e.key === 'Enter' || e.key === ' ') {
                     const active = document.activeElement;
                     if (overlayEl.contains(active) && active.tagName === 'BUTTON') {
+                        /* Foco em um botão do modal: aciona ele. */
                         e.preventDefault();
                         e.stopPropagation();
                         active.click();
+                    } else {
+                        /* Fallback: nenhum botão do modal está com foco
+                           (ex.: foco ainda no botão de origem, ou perda
+                           de foco por algum motivo). Aciona o botão de
+                           confirmação padrão diretamente. */
+                        e.preventDefault();
+                        e.stopPropagation();
+                        try { confirmBtn.click(); } catch (err) { /* ignora */ }
                     }
                 }
             };

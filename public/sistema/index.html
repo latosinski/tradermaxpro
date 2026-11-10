@@ -11,12 +11,11 @@
     <link rel="stylesheet" href="styles/print.css" media="print">
 </head>
 <body>
-      <!-- Banner de demonstração -->
+          <!-- Banner de demonstração -->
   <div class="demo-banner">
     <i class="fas fa-flask"></i>
     <span><strong>Demonstração Web</strong> — os dados ficam salvos apenas neste navegador. Nada é enviado a servidores.</span>
   </div>
-
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <aside class="sidebar" id="sidebar">
@@ -63,16 +62,13 @@
             <button class="nav-item" type="button" data-action="view" data-view="performance">
                 <i class="fas fa-tachometer-alt"></i> Performance
             </button>
+            <button class="nav-item" type="button" data-action="view" data-view="reports">
+                <i class="fas fa-chart-bar"></i> Relatórios
+            </button>
 
             <div class="nav-section">Ferramentas</div>
             <button class="nav-item" type="button" data-action="operation-new">
                 <i class="fas fa-plus-circle"></i> Nova Operação
-            </button>
-            <button class="nav-item" type="button" data-action="export-csv">
-                <i class="fas fa-file-csv"></i> Exportar CSV
-            </button>
-            <button class="nav-item" type="button" data-action="export-pdf">
-                <i class="fas fa-file-pdf"></i> Exportar PDF
             </button>
 
             <a class="nav-item logout-link"
@@ -330,6 +326,9 @@
     </div>
 
     <script src="assets/vendor/chartjs/chart.umd.min.js"></script>
+    <script src="assets/vendor/jspdf/jspdf.umd.min.js"></script>
+    <script src="assets/vendor/jspdf/jspdf.plugin.autotable.min.js"></script>
+    <script src="assets/vendor/xlsx/xlsx.full.min.js"></script>
 
     <script src="src/constants.js"></script>
     <script src="src/core/storage.js"></script>
@@ -353,9 +352,10 @@
     <script src="src/ui/modals.js"></script>
     <script src="src/ui/session.js"></script>
     <script src="src/ui/refresh.js"></script>
-    <script src="src/export/csv.js"></script>
-    <script src="src/export/pdf.js"></script>
     <script src="src/export/backup.js"></script>
+    <script src="src/export/excel.js"></script>
+    <script src="src/reports/relatorios-calc.js"></script>
+    <script src="src/ui/reports-view.js"></script>
     <script src="src/main.js"></script>
 </body>
 </html>
