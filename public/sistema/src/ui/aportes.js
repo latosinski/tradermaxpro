@@ -1,17 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════
    Planix TraderMax · src/ui/aportes.js
    ───────────────────────────────────────────────────────────────
-   Renderiza a view "Aportes":
-
-     - Formulário inline: Data + Valor + botão Adicionar.
-     - Tabela com todos os aportes do ano corrente.
-     - Ações de linha (editar / excluir) delegadas ao ui/modals.js.
-
-   Fluxo:
-     state + store  →  HTML  →  container.innerHTML
-     submit do form →  store.addAporte  →  store:changed  →  re-render
-
-   Depende de: state, store, format.
+   View "Aportes": formulário inline + tabela do ano.
+   Campo de valor usa type="text" (aceita "5.000,00") com
+   formatação visual ao sair (blur).
    ═══════════════════════════════════════════════════════════════ */
 (function (global) {
     'use strict';
@@ -20,7 +12,6 @@
     const store  = () => global.Planis.store;
     const format = () => global.Planis.format;
 
-    /* ─── Tabela ─────────────────────────────────────────────── */
     function buildTable(aportes) {
         if (!aportes.length) {
             return [
@@ -30,7 +21,6 @@
                 '</td></tr>'
             ].join('');
         }
-
         return aportes.map(function (a) {
             return [
                 '<tr>',
@@ -51,7 +41,6 @@
         }).join('');
     }
 
-    /* ─── Cabeçalho do painel de listagem ───────────────────── */
     function buildSummary(aportes) {
         const year = state().get('viewingYear');
         const n = aportes.length;
@@ -63,14 +52,12 @@
         };
     }
 
-    /* ─── Render ─────────────────────────────────────────────── */
     function render(container) {
         const year = state().get('viewingYear');
         const aportes = store().getAllAportes(year);
         const info = buildSummary(aportes);
 
         container.innerHTML = [
-            /* Painel: formulário inline de adição */
             '<div class="panel" style="margin-bottom:1.5rem;">',
             '  <div class="panel-header">',
             '    <div class="panel-title">Adicionar Aporte</div>',
@@ -83,7 +70,7 @@
             '      </div>',
             '      <div class="form-group">',
             '        <label for="aporteNewValor">Valor (R$) *</label>',
-            '        <input type="number" id="aporteNewValor" step="0.01" min="0.01" required placeholder="0,00">',
+            '        <input type="text" inputmode="decimal" id="aporteNewValor" required placeholder="0,00" autocomplete="off">',
             '      </div>',
             '      <div class="form-group">',
             '        <label aria-hidden="true">&nbsp;</label>',
@@ -95,7 +82,6 @@
             '  </div>',
             '</div>',
 
-            /* Painel: listagem do ano */
             '<div class="panel">',
             '  <div class="panel-header">',
             '    <div class="panel-title">' + info.title + '</div>',
@@ -115,7 +101,6 @@
         ].join('');
     }
 
-    /* ─── Submit do formulário inline ────────────────────────── */
     function handleSubmit(e) {
         const form = e.target.closest('[data-form="aporte-new"]');
         if (!form) return;
@@ -135,12 +120,27 @@
         }
 
         store().addAporte({ data: data, amountCents: cents });
-        /* O store dispara store:changed → main.js re-renderiza a view */
     }
 
-    /* ─── Inicialização ─────────────────────────────────────── */
+    /* Formata visualmente o valor monetário ao sair do campo,
+       mostrando exatamente o que o sistema vai gravar. */
+    function handleBlur(e) {
+        const el = e.target;
+        if (!el || el.id !== 'aporteNewValor') return;
+        const raw = (el.value || '').trim();
+        if (raw === '') return;
+        const cents = format().toCents(raw);
+        if (cents > 0) {
+            const reais = (cents / 100).toFixed(2).replace('.', ',');
+            const partes = reais.split(',');
+            partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            el.value = partes.join(',');
+        }
+    }
+
     function init() {
         document.addEventListener('submit', handleSubmit);
+        document.addEventListener('blur', handleBlur, true);
     }
 
     global.Planis = global.Planis || {};
